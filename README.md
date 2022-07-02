@@ -30,7 +30,7 @@ network_request:
  
 ## Usage
  
-Extend the `NetworkRequest` class and implement the required overrides and then add function to call and endpoint. For example
+Extend the `NetworkRequest` class and implement the required overrides and then add function to call an endpoint. For example
 ```dart
 void main() {
   var network = MockAPIManger();
