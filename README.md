@@ -11,7 +11,7 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-A package to send network request in an organized manner. http package is used to make actual request
+A package to send network request in an organized manner. [http package](https://pub.dev/packages/http) is used to make actual request
 
 ## Features
 
