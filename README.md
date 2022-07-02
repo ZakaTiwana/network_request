@@ -38,6 +38,8 @@ void main() {
 }
 
 class MockAPIManger extends NetworkRequest {
+  // Can add authorization headers. Like basic Auth
+  // or Bearer token
   @override
   Map<String, String> get authorizationHeader => {};
 
@@ -49,6 +51,8 @@ class MockAPIManger extends NetworkRequest {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
+  // If response is outside of status 200 to 299
+  // then tries to parse response body too this Exception
   @override
   Exception? errorDecoder(dynamic data) {
     try {
@@ -58,11 +62,14 @@ class MockAPIManger extends NetworkRequest {
     }
   }
 
+  // Gives a well formatted log of Request and Response
+  // Also cURL command as logs are passed here
   @override
   void log(String logString) {
     print(logString);
   }
 
+  // Can impplement refresh token logic here
   @override
   Future<bool> tryToReauthenticate() async {
     return false;
