@@ -36,6 +36,17 @@ class Request<R> {
   /// Should be `Map<String, String>` is case of multipart/form-data body.
   final dynamic body;
 
+  /// Should decode `dynamic` [data]
+  /// to [R]
+  ///
+  /// For example
+  ///
+  /// ```
+  ///   /// jsonDecode is from 'dart:converter' package
+  ///   /// [Model.fromJson] is a factory method that return `Model`
+  ///   /// from a `Map<String, dynamic>` object.
+  ///   decode: (json) => Model.fromJson(jsonDecode(json))
+  /// ```
   final Decode<R> decode;
 
   /// Should contain list of files to upload
