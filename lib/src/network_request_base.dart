@@ -131,8 +131,8 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         // error from network
         if (unautherizedStatusCode.contains(response.statusCode)) {
           try {
-            if (await tryToReauthenticate()) {
-              return call(request, presistClient: presistClient);
+            if (await tryToReauthenticate(client: client)) {
+              return call(request, presistClient: client);
             }
           } catch (_) {}
         }

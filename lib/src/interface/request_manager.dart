@@ -48,7 +48,13 @@ abstract class NetworkRequestInterface {
   ///
   /// should return `true` in case of successful
   /// re-authtication, else return `false`
-  Future<bool> tryToReauthenticate();
+  ///
+  /// Note: can pass a Network `Client` like `RetryClient`
+  /// from `http` package. If a correct [client] passed
+  /// then should use it to make the network call and should not
+  /// close it. As the same client will be used or closed later
+  /// by [call] method
+  Future<bool> tryToReauthenticate({dynamic client});
 
   /// Should gives a formatted string
   /// that can be logged

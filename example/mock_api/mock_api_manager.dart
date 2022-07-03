@@ -32,7 +32,7 @@ class MockAPIManger extends NetworkRequest {
   }
 
   @override
-  Future<bool> tryToReauthenticate() async {
+  Future<bool> tryToReauthenticate({dynamic client}) async {
     return false;
   }
 }
