@@ -4,12 +4,12 @@ abstract class NetworkRequestInterface {
   /// Should add default headers used by all Request.
   /// Should return an empty [Map] if don't
   /// want to add any default headers
-  Map<String, String> get defaultHeader;
+  Future<Map<String, String>> get defaultHeader;
 
   /// Should add headers like 'Bearer Token' to all Requests.
   /// Should return an empty [Map] if don't
   /// want to add any authorization headers
-  Map<String, String> get authorizationHeader;
+  Future<Map<String, String>> get authorizationHeader;
 
   /// Should generate the base domain, for all Requests
   ///

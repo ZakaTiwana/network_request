@@ -7,13 +7,13 @@ import 'models/mock_api_error.dart';
 
 class MockAPIManger extends NetworkRequest {
   @override
-  Map<String, String> get authorizationHeader => {};
+  Future<Map<String, String>> get authorizationHeader async => {};
 
   @override
   String get baseUrl => 'localhost:8080';
 
   @override
-  Map<String, String> get defaultHeader => {
+  Future<Map<String, String>> get defaultHeader async => {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 

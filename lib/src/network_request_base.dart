@@ -68,9 +68,9 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// throws [APIException]
   Future<R> call<R>(Request<R> request, {http.Client? presistClient}) async {
     headers.clear();
-    headers.addAll(defaultHeader);
+    headers.addAll(await defaultHeader);
     _addRequestHeader(request);
-    headers.addAll(authorizationHeader);
+    headers.addAll(await authorizationHeader);
 
     bool isMultiPart = headers[HttpHeaders.contentTypeHeader]
             ?.toLowerCase()

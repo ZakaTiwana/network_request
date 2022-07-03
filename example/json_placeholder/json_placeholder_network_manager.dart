@@ -2,7 +2,7 @@ import 'package:network_request/network_request.dart';
 
 class JsonPlaceholderManager extends NetworkRequest {
   @override
-  Map<String, String> get authorizationHeader => {};
+  Future<Map<String, String>> get authorizationHeader async => {};
 
   @override
 
@@ -10,7 +10,7 @@ class JsonPlaceholderManager extends NetworkRequest {
   String get baseUrl => 'jsonplaceholder.typicode.com';
 
   @override
-  Map<String, String> get defaultHeader => {
+  Future<Map<String, String>> get defaultHeader async => {
         'Content-type': 'application/json',
       };
 

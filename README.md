@@ -41,13 +41,13 @@ class MockAPIManger extends NetworkRequest {
   // Can add authorization headers. Like basic Auth
   // or Bearer token
   @override
-  Map<String, String> get authorizationHeader => {};
+  Future<Map<String, String>> get authorizationHeader async => {};
 
   @override
   String get baseUrl => 'localhost:8080';
 
   @override
-  Map<String, String> get defaultHeader => {
+  Future<Map<String, String>> get defaultHeader async => {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
