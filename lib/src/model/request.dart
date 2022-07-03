@@ -42,10 +42,9 @@ class Request<R> {
   /// For example
   ///
   /// ```
-  ///   /// jsonDecode is from 'dart:converter' package
   ///   /// [Model.fromJson] is a factory method that return `Model`
   ///   /// from a `Map<String, dynamic>` object.
-  ///   decode: (json) => Model.fromJson(jsonDecode(json))
+  ///   decode: (json) => Model.fromJson(json)
   ///
   ///   /// For `void` (empty) reponse use
   ///   decode: (_) {}

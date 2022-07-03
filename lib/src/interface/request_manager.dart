@@ -28,6 +28,7 @@ abstract class NetworkRequestInterface {
   String encodeBody(dynamic requestBody);
 
   /// Should decode the response from a Request
+  /// to somthing that [Request.decode] can handel
   dynamic decodeBody(String responseBody);
 
   /// Should implement a decoder.
