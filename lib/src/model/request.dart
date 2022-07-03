@@ -19,7 +19,7 @@ class Request<R> {
 
   /// path to enpoint without domain
   ///
-  ///     example = '/path/to/endpoint';
+  ///     path: '/path/to/endpoint';
   final String path;
 
   final Query? query;
@@ -46,6 +46,9 @@ class Request<R> {
   ///   /// [Model.fromJson] is a factory method that return `Model`
   ///   /// from a `Map<String, dynamic>` object.
   ///   decode: (json) => Model.fromJson(jsonDecode(json))
+  ///
+  ///   /// For `void` (empty) reponse use
+  ///   decode: (_) {}
   /// ```
   final Decode<R> decode;
 
