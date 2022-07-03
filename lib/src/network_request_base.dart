@@ -37,7 +37,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   /// By default only [HttpStatus.unauthorized] is
   /// considered. Override to add other status codes.
-  List<int> unautherizedStatusCode = [HttpStatus.unauthorized];
+  List<int> get unautherizedStatusCode => [HttpStatus.unauthorized];
 
   /// Add request specfic headers used
   /// by [request]. This will override
