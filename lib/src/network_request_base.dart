@@ -61,7 +61,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Throws [ArgumentError] if `request.body` or `request.files` does not conform
   /// to correct type. for multipart/form-data request `request.files` should be [List] of [http.MultipartFile]
   ///
-  /// Throws [DecodingError] if `request.decode` was not able to decode response body
+  /// Throws [DecodingError] if `request.decode` was not able to decode data from [decodeBody]
   ///
   /// If response status code does not lie in `200 to < 300` then first
   /// try to throw error decoded from [errorDecoder] And if not successful then
