@@ -9,10 +9,8 @@ import 'package:http/http.dart' as http;
 
 import 'model/api_exception.dart';
 
-/// Use this call to a REST API
-/// Extend this manager and add functions
-/// for an individual API call which should
-/// use [call] method to send the Request
+/// Extend this manager and add the required override. Then add methods
+/// to hit API endpoints through [call] method.
 abstract class NetworkRequest implements NetworkRequestInterface {
   @override
 
@@ -35,8 +33,12 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   final Map<String, String> headers = {};
 
-  /// By default only [HttpStatus.unauthorized] is
-  /// considered. Override to add other status codes.
+  @override
+
+  /// By default only [HttpStatus.unauthorized] trigger's
+  /// [tryToReauthenticate].
+  ///
+  /// Override to add other status codes.
   List<int> get unautherizedStatusCode => [HttpStatus.unauthorized];
 
   /// Add request specfic headers used
@@ -190,6 +192,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     return sb.toString();
   }
 
+  /// Generate Erroo log string
   String _logErrorString(http.BaseRequest request, int? statusCode,
       Map<String, dynamic>? requestBody, Object error) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
@@ -205,7 +208,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   /// Generates a cURL string for debugging.
   ///
-  /// File in form data will only show the filename.
+  /// File in 'multipart/form-data' will only show the filename.
   String _curlString(http.BaseRequest httpRequest, Request request) {
     String result = '';
     result += "curl --request  ${httpRequest.method} '${httpRequest.url}' \\\n";

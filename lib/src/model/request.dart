@@ -36,7 +36,7 @@ class Request<R> {
   /// Should be `Map<String, String>` is case of multipart/form-data body.
   final dynamic body;
 
-  /// Should decode `dynamic` [data]
+  /// Should decode `dynamic` data
   /// to [R]
   ///
   /// For example

@@ -1,3 +1,4 @@
+/// Http Methods
 enum Method {
   // ignore: constant_identifier_names
   GET,
