@@ -76,6 +76,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
             ?.toLowerCase()
             .contains('multipart/form-data') ==
         true;
+    if (!isMultiPart && request.files?.isNotEmpty == true) {
+      throw StateError(
+        'if `request.files` is not empty then need to set content-type header to "${HttpHeaders.contentTypeHeader}: multipart/form-data"',
+      );
+    }
     final http.BaseRequest httpRequest;
     if (isMultiPart) {
       httpRequest = http.MultipartRequest(
