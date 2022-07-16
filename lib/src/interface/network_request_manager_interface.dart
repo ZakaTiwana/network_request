@@ -66,9 +66,13 @@ abstract class NetworkRequestInterface {
   void log(String logString);
 
   /// Should print logs if `true`
-  bool enableLog = true;
+  bool enableLog = false;
 
   /// Should print cURL command to log
   /// if `true`
-  bool enableCurlLog = true;
+  bool enableCurlLog = false;
+
+  /// Should format [json] as `String`.
+  /// Shoudl use it when creating logs
+  String logFormattedJson(dynamic json);
 }

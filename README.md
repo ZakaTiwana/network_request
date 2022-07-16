@@ -69,7 +69,7 @@ class MockAPIManger extends NetworkRequest {
     print(logString);
   }
 
-  // Can impplement refresh token logic here
+  // Can implement refresh token logic here
   @override
   Future<bool> tryToReauthenticate() async {
     return false;
@@ -124,6 +124,7 @@ class MockAPIUser {
 ```
 
 Find detail examples in `example` folder
+
 **Note:** A mock server API with dart was also created to test `network_request` functionality. you can find its [source code here](https://github.com/ZakaTiwana/network_request_mock_api)
 ## Additional information
 

@@ -13,7 +13,7 @@ import 'mock_api/models/mock_user.dart';
 import 'mock_api/request/mock_user.dart';
 
 void main() {
-  exampleMockAPIFormData();
+  exampleJp();
 }
 
 // MockAPIManger

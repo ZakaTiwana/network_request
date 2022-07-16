@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/retry.dart';
 
 import 'model/request.dart';
-import 'interface/request_manager.dart';
+import 'interface/network_request_manager_interface.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/api_exception.dart';
@@ -183,11 +183,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
       Map<String, dynamic>? requestBody, dynamic responseBody) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
     sb.writeln('Method: ${request.method}, url: ${request.url}');
-    sb.writeln('Header: ${request.headers}');
-    sb.writeln('Body: $requestBody');
+    sb.writeln('Header: ${logFormattedJson(request.headers)}');
+    sb.writeln('Body: ${logFormattedJson(requestBody)}');
     sb.writeln('------------ Response ------------');
     sb.writeln('Status Code: ${response.statusCode}');
-    sb.writeln('Body: $responseBody');
+    sb.writeln('Body: ${logFormattedJson(responseBody)}');
     sb.write('======== Network Call End ========');
     return sb.toString();
   }
@@ -197,11 +197,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
       Map<String, dynamic>? requestBody, Object error) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
     sb.writeln('Method: ${request.method}, url: ${request.url}');
-    sb.writeln('Header: ${request.headers}');
-    sb.writeln('Body: $requestBody');
+    sb.writeln('Header: ${logFormattedJson(request.headers)}');
+    sb.writeln('Body: ${logFormattedJson(requestBody)}');
     sb.writeln('------------ Response ------------');
     sb.writeln('Status Code: $statusCode');
-    sb.writeln('Error: $error');
+    sb.writeln('Error: ${logFormattedJson(error)}');
     sb.write('======== Network Call End ========');
     return sb.toString();
   }
@@ -269,6 +269,29 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     // remove extra '/' & '/n' from last header
     result = result.substring(0, result.length - 2);
     return result;
+  }
+
+  @override
+
+  /// Uses [converter.JsonEncoder] to formate the
+  /// [json] for logs.
+  ///
+  /// If fails then return the `json.toString()`
+  String logFormattedJson(json) {
+    try {
+      var encoded = converter.JsonEncoder.withIndent(' ').convert(json);
+      // trims log if greator than 2000
+      if (encoded.length > 2000) {
+        int toTrim = encoded.length - (2000 - 1);
+        int middle = encoded.length ~/ 2;
+        int trimMiddle = toTrim ~/ 2;
+        encoded = encoded.replaceRange(
+            middle - trimMiddle, middle + trimMiddle, '\n...\n');
+      }
+      return encoded;
+    } catch (e) {
+      return json.toString();
+    }
   }
 
   @override
