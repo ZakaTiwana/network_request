@@ -73,6 +73,10 @@ abstract class NetworkRequestInterface {
   bool enableCurlLog = false;
 
   /// Should format [json] as `String`.
-  /// Shoudl use it when creating logs
+  /// Should use it when creating logs
   String logFormattedJson(dynamic json);
+
+  /// Should trim json string
+  /// in logs to make them compact
+  bool trimJsonLogs = false;
 }

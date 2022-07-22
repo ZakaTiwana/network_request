@@ -26,6 +26,13 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Override to disable
   bool enableCurlLog = true;
 
+  @override
+
+  /// Does not trims String in logs if `false`
+  ///
+  /// Override to disable
+  bool trimJsonLogs = true;
+
   /// By default uses a retry client.
   ///
   /// Override to add your custom [http.Client]
@@ -278,6 +285,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   ///
   /// If fails then return the `json.toString()`
   String logFormattedJson(json) {
+    if (!trimJsonLogs) json.toString();
     try {
       var encoded = converter.JsonEncoder.withIndent(' ').convert(json);
       // trims log if greator than 2000

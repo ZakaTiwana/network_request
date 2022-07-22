@@ -14,7 +14,9 @@ void _allLogTests() {
       'test2': '2' * (500 - 8 - 7)
     };
     final result = network.logFormattedJson(json);
-    expect(false, result.contains('\n...\n'));
+    if (network.trimJsonLogs) {
+      expect(false, result.contains('\n...\n'));
+    }
   });
 
   test('Log Formatted Json test - on 2000 characters', () {
@@ -23,7 +25,9 @@ void _allLogTests() {
       'test2': '2' * (1000 - 8 - 7)
     };
     final result = network.logFormattedJson(json);
-    expect(false, result.contains('\n...\n'));
+    if (network.trimJsonLogs) {
+      expect(false, result.contains('\n...\n'));
+    }
   });
 
   test('Log Formatted Json test - on 2001 characters', () {
@@ -32,12 +36,16 @@ void _allLogTests() {
       'test2': '2' * (1000 - 8 - 6)
     };
     final result = network.logFormattedJson(json);
-    expect(true, result.contains('\n...\n'));
+    if (network.trimJsonLogs) {
+      expect(true, result.contains('\n...\n'));
+    }
   });
 
   test('Log Formatted Json test - on > 2001 characters', () {
     Map<String, dynamic> json = {'test': '1' * 3021, 'test2': '2' * 1300};
     final result = network.logFormattedJson(json);
-    expect(true, result.contains('\n...\n'));
+    if (network.trimJsonLogs) {
+      expect(true, result.contains('\n...\n'));
+    }
   });
 }
