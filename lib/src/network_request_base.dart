@@ -289,9 +289,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   ///
   /// If fails then return the `json.toString()`
   String logFormattedJson(json) {
-    if (!trimJsonLogs) return json.toString();
     try {
       var encoded = converter.JsonEncoder.withIndent(' ').convert(json);
+      if (!trimJsonLogs) return encoded;
+
       // trims log if greator than 2000
       if (encoded.length > 2000) {
         int toTrim = encoded.length - (2000 - 1);
