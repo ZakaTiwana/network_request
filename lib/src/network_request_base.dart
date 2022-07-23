@@ -143,6 +143,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
       if (!(response.statusCode >= 200 && response.statusCode < 300)) {
         // error from network
+        if (request.isRefreshRequest) {
+          throw APIException(
+              response.statusCode, 'Error from network in Refresh Request');
+        }
         if (unautherizedStatusCode.contains(response.statusCode)) {
           try {
             if (await tryToReauthenticate(client: client)) {

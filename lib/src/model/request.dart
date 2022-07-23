@@ -14,6 +14,7 @@ class Request<R> {
     this.body,
     this.files,
     this.encoding = converter.utf8,
+    this.isRefreshRequest = false,
   });
   final Method method;
 
@@ -54,4 +55,8 @@ class Request<R> {
   /// Should contain list of files to upload
   final List<dynamic>? files;
   final converter.Encoding encoding;
+
+  /// if its a retry request
+  /// then set `true`
+  final bool isRefreshRequest;
 }
