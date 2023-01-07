@@ -1,6 +1,6 @@
 name: network_request
 description: A package to send network request in an organized manner. http package is used to make actual request
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/ZakaTiwana/network_request/tree/release/v0.0.1
 
 environment:

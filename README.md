@@ -27,7 +27,11 @@ In your Dart/Flutter project add the following line to `pubspec.yaml` file
 network_request:
     git: https://github.com/ZakaTiwana/network_request.git
 ```
- 
+Or from pub.dev use
+```yaml
+network_request: 0.0.2
+```
+
 ## Usage
  
 Extend the `NetworkRequest` class and implement the required overrides and then add function to call an endpoint. For example
