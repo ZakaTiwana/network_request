@@ -18,7 +18,7 @@ A package to send network request in an organized manner. [http package](https:/
 - A easy way to create Network Service
 - Logs for Request, Response
 - cURL command as logs
-- Can handel `application/json`, `text/plain`, `x-www-form-urlencoded` and `multipart/form-data` out of the box
+- Can handle `application/json`, `text/plain`, `x-www-form-urlencoded` and `multipart/form-data` out of the box
 
 ## Getting started
 
