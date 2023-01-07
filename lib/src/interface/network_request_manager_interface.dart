@@ -28,6 +28,12 @@ abstract class NetworkRequestInterface {
   /// Should genrate the url for a request
   Uri url(Request request);
 
+  /// Should return a `https` [Uri] object from function [url]
+  /// if `true`
+  ///
+  /// else should return `http` [Uri] object
+  bool isRequestHttps = false;
+
   /// Should encode the body of the request.
   String encodeBody(dynamic requestBody);
 

@@ -9,6 +9,7 @@ class Request<R> {
     required this.method,
     required this.path,
     required this.decode,
+    this.version,
     this.query,
     this.headers,
     this.body,
@@ -22,6 +23,14 @@ class Request<R> {
   ///
   ///     path: '/path/to/endpoint';
   final String path;
+
+  /// if set, it will prefix version to
+  /// the enpoint version string e.g `/v1/path/to/endpoint`
+  ///
+  /// where number is taken from [version]
+  ///
+  /// [version] should be `> 0`
+  final int? version;
 
   final Query? query;
 

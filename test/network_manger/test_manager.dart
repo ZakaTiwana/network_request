@@ -1,5 +1,9 @@
 import 'package:network_request/network_request.dart';
 
+export 'requests/comment.dart';
+export 'requests/post.dart';
+export 'requests/todo.dart';
+
 class TestNetworkManager extends NetworkRequest {
   @override
   Future<Map<String, String>> get authorizationHeader async => {};

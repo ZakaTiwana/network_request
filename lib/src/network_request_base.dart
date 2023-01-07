@@ -14,6 +14,13 @@ import 'model/api_exception.dart';
 abstract class NetworkRequest implements NetworkRequestInterface {
   @override
 
+  /// Does not trims String in logs if `false`
+  ///
+  /// Override to disable
+  bool trimJsonLogs = true;
+
+  @override
+
   /// Does not call [log] if `false`
   ///
   /// Override to disable
@@ -28,10 +35,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   @override
 
-  /// Does not trims String in logs if `false`
+  /// Returns a `http` [Uri] object from function [url]
   ///
-  /// Override to disable
-  bool trimJsonLogs = true;
+  /// Override to return a `https` [Uri] object
+  bool isRequestHttps = false;
 
   /// By default uses a retry client.
   ///
@@ -183,11 +190,26 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Default to a `http` URL
   ///
   /// Override to generate `https` URL
-  Uri url(Request request) => Uri.http(
+  Uri url(Request request) {
+    var path = request.path;
+    if (!path.startsWith('/')) path = '/$path';
+    var version = request.version;
+    if (version != null && version > 0) path = 'v$version$path';
+
+    if (isRequestHttps) {
+      return Uri.https(
         baseUrl,
-        request.path,
+        path,
         request.query,
       );
+    } else {
+      return Uri.http(
+        baseUrl,
+        path,
+        request.query,
+      );
+    }
+  }
 
   /// Genrate a string that can be logged
   String _logString(http.BaseRequest request, http.BaseResponse response,
