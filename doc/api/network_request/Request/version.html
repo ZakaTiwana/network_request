@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the Request constructor from Class Request from the network_request library, for the Dart programming language.">
-  <title>Request constructor - Request - network_request library - Dart API</title>
+  <meta name="description" content="API docs for the version property from the Request class, for the Dart programming language.">
+  <title>version property - Request class - network_request library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/network_request-library.html">network_request</a></li>
     <li><a href="../../network_request/Request-class.html">Request<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
-    <li class="self-crumb">Request const constructor</li>
+    <li class="self-crumb">version property</li>
   </ol>
-  <div class="self-name">Request</div>
+  <div class="self-name">version</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,42 +44,30 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-constructor">Request&lt;<wbr><span class="type-parameter">R</span>&gt;</span> constructor 
+<h1><span class="kind-property">version</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
-      <span class="name ">Request&lt;<wbr><span class="type-parameter">R</span>&gt;</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-method">{<span>required</span> <span class="type-annotation"><a href="../../network_request/Method.html">Method</a></span> <span class="parameter-name">method</span>, </span></li>
-<li><span class="parameter" id="-param-path"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span>, </span></li>
-<li><span class="parameter" id="-param-decode"><span>required</span> <span class="type-annotation">Decode<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">decode</span>, </span></li>
-<li><span class="parameter" id="-param-version"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">version</span>, </span></li>
-<li><span class="parameter" id="-param-query"><span class="type-annotation">Query?</span> <span class="parameter-name">query</span>, </span></li>
-<li><span class="parameter" id="-param-headers"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">headers</span>, </span></li>
-<li><span class="parameter" id="-param-body"><span class="type-annotation">dynamic</span> <span class="parameter-name">body</span>, </span></li>
-<li><span class="parameter" id="-param-files"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a>?</span> <span class="parameter-name">files</span>, </span></li>
-<li><span class="parameter" id="-param-encoding"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-convert/Encoding-class.html">Encoding</a></span> <span class="parameter-name">encoding</span> = <span class="default-value">converter.utf8</span>, </span></li>
-<li><span class="parameter" id="-param-isRefreshRequest"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isRefreshRequest</span> = <span class="default-value">false</span>}</span></li>
-</ol>)
-    </section>
+        <section class="multi-line-signature">
+          <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?
+          <span class="name ">version</span>
+          <div class="features">final</div>
 
-    
+        </section>
+        
+<section class="desc markdown">
+  <p>if set, it will prefix version to
+the enpoint version string e.g <code>/v1/path/to/endpoint</code></p>
+<p>where number is taken from <a href="../../network_request/Request/version.html">version</a></p>
+<p><a href="../../network_request/Request/version.html">version</a> should be <code>&gt; 0</code></p>
+</section>
 
-
-    
+        
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const Request({
-  required this.method,
-  required this.path,
-  required this.decode,
-  this.version,
-  this.query,
-  this.headers,
-  this.body,
-  this.files,
-  this.encoding = converter.utf8,
-  this.isRefreshRequest = false,
-});</code></pre>
+  <pre class="language-dart"><code class="language-dart">final int? version;
+
+</code></pre>
 </section>
 
 
@@ -96,7 +84,7 @@
   <li><a href="../../index.html">network_request</a></li>
   <li><a href="../../network_request/network_request-library.html">network_request</a></li>
   <li><a href="../../network_request/Request-class.html">Request<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
-  <li class="self-crumb">Request const constructor</li>
+  <li class="self-crumb">version property</li>
 </ol>
 
 
@@ -135,7 +123,7 @@
 
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->

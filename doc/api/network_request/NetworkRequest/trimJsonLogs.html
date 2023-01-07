@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the errorDecoder method from the NetworkRequest class, for the Dart programming language.">
-  <title>errorDecoder method - NetworkRequest class - network_request library - Dart API</title>
+  <meta name="description" content="API docs for the trimJsonLogs property from the NetworkRequest class, for the Dart programming language.">
+  <title>trimJsonLogs property - NetworkRequest class - network_request library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/network_request-library.html">network_request</a></li>
     <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
-    <li class="self-crumb">errorDecoder abstract method</li>
+    <li class="self-crumb">trimJsonLogs property</li>
   </ol>
-  <div class="self-name">errorDecoder</div>
+  <div class="self-name">trimJsonLogs</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,34 +44,33 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">errorDecoder</span> method 
+<h1><span class="kind-property">trimJsonLogs</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
-      
+        <section class="multi-line-signature">
+          <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>
+          <span class="name ">trimJsonLogs</span>
+          <div class="features">read / write</div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Exception-class.html">Exception</a>?</span>
-<span class="name ">errorDecoder</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="errorDecoder-param-data"><span class="type-annotation">dynamic</span> <span class="parameter-name">data</span></span></li>
-</ol>)
-
-      <div class="features">inherited</div>
-
-    </section>
-    
+        </section>
+        
 <section class="desc markdown">
-  <p>Should implement a decoder.
-To decode the Error object in
-response from the network call.</p>
-<p>If decoding fails then should return <code>null</code>.
-It should not throw an Exception</p>
+  <p>Does not trims String in logs if <code>false</code></p>
+<p>Override to disable</p>
 </section>
 
-
-    
+        
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Exception? errorDecoder(dynamic data);</code></pre>
+  <pre class="language-dart"><code class="language-dart">@override
+
+&#47;&#47;&#47; Does not trims String in logs if `false`
+&#47;&#47;&#47;
+&#47;&#47;&#47; Override to disable
+bool trimJsonLogs = true;
+
+</code></pre>
 </section>
 
 
@@ -88,7 +87,7 @@ It should not throw an Exception</p>
   <li><a href="../../index.html">network_request</a></li>
   <li><a href="../../network_request/network_request-library.html">network_request</a></li>
   <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
-  <li class="self-crumb">errorDecoder abstract method</li>
+  <li class="self-crumb">trimJsonLogs property</li>
 </ol>
 
 

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the errorDecoder method from the NetworkRequest class, for the Dart programming language.">
-  <title>errorDecoder method - NetworkRequest class - network_request library - Dart API</title>
+  <meta name="description" content="API docs for the logFormattedJson method from the NetworkRequest class, for the Dart programming language.">
+  <title>logFormattedJson method - NetworkRequest class - network_request library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/network_request-library.html">network_request</a></li>
     <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
-    <li class="self-crumb">errorDecoder abstract method</li>
+    <li class="self-crumb">logFormattedJson method</li>
   </ol>
-  <div class="self-name">errorDecoder</div>
+  <div class="self-name">logFormattedJson</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,34 +44,60 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">errorDecoder</span> method 
+<h1><span class="kind-method">logFormattedJson</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
+<div>
+  <ol class="annotation-list">
+    <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
+  </ol>
+</div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Exception-class.html">Exception</a>?</span>
-<span class="name ">errorDecoder</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="errorDecoder-param-data"><span class="type-annotation">dynamic</span> <span class="parameter-name">data</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+<span class="name ">logFormattedJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="logFormattedJson-param-json"><span class="type-annotation">dynamic</span> <span class="parameter-name">json</span></span></li>
 </ol>)
 
-      <div class="features">inherited</div>
+      
 
     </section>
     
 <section class="desc markdown">
-  <p>Should implement a decoder.
-To decode the Error object in
-response from the network call.</p>
-<p>If decoding fails then should return <code>null</code>.
-It should not throw an Exception</p>
+  <p>Uses <a href="https://api.flutter.dev/flutter/dart-convert/JsonEncoder-class.html">converter.JsonEncoder</a> to formate the
+<code>json</code> for logs.</p>
+<p>If fails then return the <code>json.toString()</code></p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Exception? errorDecoder(dynamic data);</code></pre>
+  <pre class="language-dart"><code class="language-dart">@override
+
+&#47;&#47;&#47; Uses [converter.JsonEncoder] to formate the
+&#47;&#47;&#47; [json] for logs.
+&#47;&#47;&#47;
+&#47;&#47;&#47; If fails then return the `json.toString()`
+String logFormattedJson(json) {
+  try {
+    var encoded = converter.JsonEncoder.withIndent(&#39; &#39;).convert(json);
+    if (!trimJsonLogs) return encoded;
+
+    &#47;&#47; trims log if greator than 2000
+    if (encoded.length &gt; 2000) {
+      int toTrim = encoded.length - (2000 - 1);
+      int middle = encoded.length ~&#47; 2;
+      int trimMiddle = toTrim ~&#47; 2;
+      encoded = encoded.replaceRange(
+          middle - trimMiddle, middle + trimMiddle, &#39;\n...\n&#39;);
+    }
+    return encoded;
+  } catch (e) {
+    return json.toString();
+  }
+}</code></pre>
 </section>
 
 
@@ -88,7 +114,7 @@ It should not throw an Exception</p>
   <li><a href="../../index.html">network_request</a></li>
   <li><a href="../../network_request/network_request-library.html">network_request</a></li>
   <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
-  <li class="self-crumb">errorDecoder abstract method</li>
+  <li class="self-crumb">logFormattedJson method</li>
 </ol>
 
 
