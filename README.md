@@ -24,12 +24,7 @@ A package to send network request in an organized manner. [http package](https:/
 
 In your Dart/Flutter project add the following line to `pubspec.yaml` file
 ```yaml
-network_request:
-    git: https://github.com/ZakaTiwana/network_request.git
-```
-Or from pub.dev use
-```yaml
-network_request: 0.0.2
+network_request: ^0.0.2
 ```
 
 ## Usage
