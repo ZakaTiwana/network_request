@@ -1,14 +1,9 @@
 import 'package:network_request/network_request.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
-import 'network_manger/test_manager.dart';
+import '../../network_manger/test_manager.dart';
 
-void main() {
-  group('[All log tests]', _allLogTests);
-}
-
-void _allLogTests() {
+void allFormatedJsonLogTests() {
   NetworkRequest sut() {
     return TestNetworkManager();
   }
