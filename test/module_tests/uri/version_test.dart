@@ -1,16 +1,15 @@
 import 'package:network_request/network_request.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
-import 'main.dart';
+import '../../network_manger/test_manager.dart';
 
-void main() {
-  group('[All version tests]', _allVersionTests);
-  group('[All https tests]', _allHttpsTest);
-}
+void allVersionTests() {
+  NetworkRequest sut() {
+    return TestNetworkManager();
+  }
 
-void _allVersionTests() {
   test('All version tests - no version', () {
+    final network = sut();
     final result = network.url(
       Request(
         method: Method.GET,
@@ -22,6 +21,7 @@ void _allVersionTests() {
   });
 
   test('All version tests - v1 prefixed', () {
+    final network = sut();
     final result = network.url(
       Request(
           method: Method.GET,
@@ -33,6 +33,7 @@ void _allVersionTests() {
   });
 
   test('All version tests -  no version when 0 passed', () {
+    final network = sut();
     final result = network.url(
       Request(
         method: Method.GET,
@@ -45,6 +46,7 @@ void _allVersionTests() {
   });
 
   test('All version tests -  no version when < 0 passed', () {
+    final network = sut();
     final result = network.url(
       Request(
         method: Method.GET,
@@ -54,31 +56,5 @@ void _allVersionTests() {
       ),
     );
     expect(true, result.path == '/path/to/endpint');
-  });
-}
-
-void _allHttpsTest() {
-  test('All https tests - is http', () {
-    network.isRequestHttps = false;
-    final result = network.url(
-      Request(
-        method: Method.GET,
-        path: '/path/to/endpint',
-        decode: (_) {},
-      ),
-    );
-    expect(true, result.scheme == 'http');
-  });
-
-  test('All https tests - is https', () {
-    network.isRequestHttps = true;
-    final result = network.url(
-      Request(
-        method: Method.GET,
-        path: '/path/to/endpint',
-        decode: (_) {},
-      ),
-    );
-    expect(true, result.scheme == 'https');
   });
 }
