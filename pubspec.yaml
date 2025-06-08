@@ -1,6 +1,6 @@
 name: network_request
 description: A powerful and comprehensive Dart package for simplifying HTTP requests and interacting with RESTful APIs
-version: 0.0.3
+version: 0.0.3+1
 repository: https://github.com/ZakaTiwana/network_request
 
 environment:
