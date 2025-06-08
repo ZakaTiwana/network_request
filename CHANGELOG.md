@@ -4,5 +4,13 @@
 
 ## 0.0.2
 
+- Readme updated.
+
+## 0.0.3
+
 - http updated to `1.4.0`.
+- Readme updated.
+
+## 0.0.3+1
+
 - Readme updated.

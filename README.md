@@ -23,7 +23,7 @@ A powerful and comprehensive Dart package for simplifying **HTTP requests** and 
 ## 📝 Logging Feature
 Best suited for JSON APIs. Get detailed logs for both requests and responses with a `terminal-pastable cURL command` for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.
 
-![Network Request Log Example](./assets/log%20print%20example.png)
+![Network Request Log Example](https://raw.githubusercontent.com/ZakaTiwana/network_request/main/assets/log%20print%20example.png)
 
 ## 🚀 Getting started
 
@@ -34,7 +34,7 @@ network_request:
 ```
 Or from pub.dev use
 ```yaml
-network_request: 0.0.3
+network_request: 0.0.3+1
 ```
 
 ## 💡 Usage
