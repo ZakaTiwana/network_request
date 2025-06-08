@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="generator" content="made with love by dartdoc 6.0.0">
   <meta name="description" content="network_request API docs, for the Dart programming language.">
   <title>network_request - Dart API docs</title>
 
@@ -12,22 +11,18 @@
   
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   
   <link rel="stylesheet" href="static-assets/github.css?v1">
   <link rel="stylesheet" href="static-assets/styles.css?v1">
   <link rel="icon" href="static-assets/favicon.png?v1">
-
   
 </head>
 
-
-<body data-base-href="" data-using-base-href="false">
-
+<body data-base-href="" data-using-base-href="false" class="light-theme">
 <div id="overlay-under-drawer"></div>
-
 <header id="title">
-  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li class="self-crumb">network_request package</li>
   </ol>
@@ -35,11 +30,16 @@
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
 </header>
-
 <main>
-
-
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
@@ -55,42 +55,50 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
-<p>A package to send network request in an organized manner. <a href="https://pub.dev/packages/http">http package</a> is used to make actual request</p>
-<h2 id="features">Features</h2>
+<p>A powerful and comprehensive Dart package for simplifying <strong>HTTP requests</strong> and interacting with <strong>RESTful APIs</strong> in Flutter and Dart applications. This package provides an organized and efficient way to handle all your <strong>networking</strong> needs, leveraging the robust <a href="https://pub.dev/packages/http">http package</a> for actual <strong>network calls</strong>. Experience streamlined <strong>API integration</strong>, enhanced <strong>debugging capabilities</strong>, and a developer-friendly approach to <strong>data fetching</strong>.</p>
+<h2 id="-features">✨ Features</h2>
 <ul>
-<li>A easy way to create Network Service</li>
-<li>Logs for Request, Response</li>
-<li>cURL command as logs</li>
-<li>Can handle <code>application/json</code>, <code>text/plain</code>, <code>x-www-form-urlencoded</code> and <code>multipart/form-data</code> out of the box</li>
+<li><strong>Robust Network Service Creation</strong>: Easily set up and manage your <code>API services</code> and <code>network layers</code>. 🚀</li>
+<li><strong>Enhanced Logging for Debugging</strong>: Get detailed logs for both <code>API requests</code> and <code>API responses</code>. Essential for quick bug fixing and <code>troubleshooting</code>. 🐞</li>
+<li><strong>cURL Command Generation</strong>: Get <code>cURL commands</code> for every network request for easy debugging and reproduction outside your application. 🐚</li>
+<li><strong>Versatile Content Type Handling</strong>: Out-of-the-box support for common <strong>HTTP content types</strong> like <code>application/json</code>, <code>text/plain</code>, <code>x-www-form-urlencoded</code>, and <code>multipart/form-data</code>. 📦</li>
 </ul>
-<h2 id="getting-started">Getting started</h2>
+<h2 id="-logging-feature">📝 Logging Feature</h2>
+<p>Best suited for JSON APIs. Get detailed logs for both requests and responses with a <code>terminal-pastable cURL command</code> for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.</p>
+<p><img src="./assets/log%20print%20example.png" alt="Network Request Log Example"></p>
+<h2 id="-getting-started">🚀 Getting started</h2>
 <p>In your Dart/Flutter project add the following line to <code>pubspec.yaml</code> file</p>
 <pre class="language-yaml"><code class="language-yaml">network_request:
     git: https://github.com/ZakaTiwana/network_request.git
 </code></pre>
-<h2 id="usage">Usage</h2>
-<p>Extend the <code>NetworkRequest</code> class and implement the required overrides and then add function to call an endpoint. For example</p>
-<pre class="language-dart"><code class="language-dart">void main() {
+<p>Or from pub.dev use</p>
+<pre class="language-yaml"><code class="language-yaml">network_request: 0.0.3
+</code></pre>
+<h2 id="-usage">💡 Usage</h2>
+<p>The <code>network_request</code> package simplifies the process of making HTTP requests. Extend the <code>NetworkRequest</code> class and implement the required overrides to define your API manager.</p>
+<h3 id="1-extending-networkrequest">1. Extending <code>NetworkRequest</code></h3>
+<p>First, create a class that extends <code>NetworkRequest</code>. This class will serve as your API manager, where you configure base URLs, default headers, error decoders, and logging.</p>
+<pre class="language-dart"><code class="language-dart">import 'package:network_request/network_request.dart';
+
+void main() {
   var network = MockAPIManger();
   network.fetchUser(1);
 }
 
 class MockAPIManger extends NetworkRequest {
-  // Can add authorization headers. Like basic Auth
-  // or Bearer token
   @override
-  Future&lt;Map&lt;String, String&gt;&gt; get authorizationHeader async =&gt; {};
-
-  @override
-  String get baseUrl =&gt; 'localhost:8080';
+  String get baseUrl =&gt; 'https://jsonplaceholder.typicode.com'; // Example base URL
 
   @override
   Future&lt;Map&lt;String, String&gt;&gt; get defaultHeader async =&gt; {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
-  // If response is outside of status 200 to 299
-  // then tries to parse response body too this Exception
+  // Optional: Add authorization headers if needed
+  @override
+  Future&lt;Map&lt;String, String&gt;&gt; get authorizationHeader async =&gt; {};
+
+  // Optional: Implement custom error decoding
   @override
   Exception? errorDecoder(dynamic data) {
     try {
@@ -100,33 +108,37 @@ class MockAPIManger extends NetworkRequest {
     }
   }
 
-  // Gives a well formatted log of Request and Response
-  // Also cURL command as logs are passed here
+  // Essential: Integrate the logging feature
+  // This method provides detailed logs, including cURL commands
   @override
   void log(String logString) {
     print(logString);
   }
 
-  // Can implement refresh token logic here
+  // Optional: Implement refresh token logic
   @override
   Future&lt;bool&gt; tryToReauthenticate() async {
     return false;
   }
 }
-
-extension on MockAPIManger {
+</code></pre>
+<h3 id="2-defining-api-endpoints">2. Defining API Endpoints</h3>
+<p>After setting up your <code>NetworkRequest</code> extension, you can define specific API endpoints using an extension (or any other perfered way such as passing this <code>MockAPIManger</code> object to your service class) on your manager class.</p>
+<pre class="language-dart"><code class="language-dart">extension on MockAPIManger {
   Future&lt;MockAPIUser&gt; fetchUser(int id) {
     return call(
       Request(
         method: Method.GET,
-        path: '/user/$id',
+        path: '/todos/$id', // Example path
         decode: (json) =&gt; MockAPIUser.fromJson(json),
       ),
     );
   }
 }
-
-class MockAPIError implements Exception {
+</code></pre>
+<h3 id="3-example-models-for-decoding">3. Example Models for Decoding</h3>
+<p>To decode your API responses, you'll typically define data models.</p>
+<pre class="language-dart"><code class="language-dart">class MockAPIError implements Exception {
   final int statusCode;
   final String message;
   const MockAPIError(this.message, this.statusCode);
@@ -160,9 +172,9 @@ class MockAPIUser {
   }
 }
 </code></pre>
-<p>Find detail examples in <code>example</code> folder</p>
-<p><strong>Note:</strong> A mock server API with dart was also created to test <code>network_request</code> functionality. you can find its <a href="https://github.com/ZakaTiwana/network_request_mock_api">source code here</a></p>
-<h2 id="additional-information">Additional information</h2>
+<p>Find more detailed examples in the <code>example</code> folder.</p>
+<p><strong>Note:</strong> A mock server API with Dart was also created to test <code>network_request</code> functionality. You can find its <a href="https://github.com/ZakaTiwana/network_request_mock_api">source code here</a></p>
+<h2 id="-additional-information">📚 Additional Information</h2>
 <p>Feel free to leave any suggestions :)</p>
 </section>
 
@@ -171,7 +183,7 @@ class MockAPIUser {
           <h2>Libraries</h2>
         <dl>
           <dt id="network_request">
-  <span class="name"><a href="network_request/network_request-library.html">network_request</a></span> 
+  <span class="name"><a href="network_request/">network_request</a></span> 
 
 </dt>
 <dd>Make Network requests with ease
@@ -179,51 +191,40 @@ class MockAPIUser {
 
         </dl>
       </section>
-
   </div> <!-- /.main-content -->
-
   <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
-    <header id="header-search-sidebar" class="hidden-l">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
   <form class="search-sidebar" role="search">
     <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
 </header>
-
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-  <li class="self-crumb">network_request package</li>
+    <li class="self-crumb">network_request package</li>
 </ol>
-
 
     <h5 class="hidden-xs"><span class="package-name">network_request</span> <span class="package-kind">package</span></h5>
     <ol>
       <li class="section-title">Libraries</li>
-      <li><a href="network_request/network_request-library.html">network_request</a></li>
+      <li><a href="network_request/">network_request</a></li>
 </ol>
 
   </div>
-
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div>
-
 </main>
-
 <footer>
   <span class="no-break">
     network_request
-      0.0.1
+      0.0.2
   </span>
-
   
 </footer>
-
 
 
 <script src="static-assets/highlight.pack.js?v1"></script>
 <script src="static-assets/docs.dart.js"></script>
 
-
-
 </body>
-
 </html>
 
