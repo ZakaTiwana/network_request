@@ -11,16 +11,21 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-A package to send network request in an organized manner. [http package](https://pub.dev/packages/http) is used to make actual request
+A powerful and comprehensive Dart package for simplifying **HTTP requests** and interacting with **RESTful APIs** in Flutter and Dart applications. This package provides an organized and efficient way to handle all your **networking** needs, leveraging the robust [http package](https://pub.dev/packages/http) for actual **network calls**. Experience streamlined **API integration**, enhanced **debugging capabilities**, and a developer-friendly approach to **data fetching**.
 
-## Features
+## ✨ Features
 
-- A easy way to create Network Service
-- Logs for Request, Response
-- cURL command as logs
-- Can handle `application/json`, `text/plain`, `x-www-form-urlencoded` and `multipart/form-data` out of the box
+- **Robust Network Service Creation**: Easily set up and manage your `API services` and `network layers`. 🚀
+- **Enhanced Logging for Debugging**: Get detailed logs for both `API requests` and `API responses`. Essential for quick bug fixing and `troubleshooting`. 🐞
+- **cURL Command Generation**: Get `cURL commands` for every network request for easy debugging and reproduction outside your application. 🐚
+- **Versatile Content Type Handling**: Out-of-the-box support for common **HTTP content types** like `application/json`, `text/plain`, `x-www-form-urlencoded`, and `multipart/form-data`. 📦
 
-## Getting started
+## 📝 Logging Feature
+Best suited for JSON APIs. Get detailed logs for both requests and responses with a `terminal-pastable cURL command` for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.
+
+![Network Request Log Example](./assets/log%20print%20example.png)
+
+## 🚀 Getting started
 
 In your Dart/Flutter project add the following line to `pubspec.yaml` file
 ```yaml
@@ -29,34 +34,39 @@ network_request:
 ```
 Or from pub.dev use
 ```yaml
-network_request: 0.0.2
+network_request: 0.0.3
 ```
 
-## Usage
+## 💡 Usage
  
-Extend the `NetworkRequest` class and implement the required overrides and then add function to call an endpoint. For example
-```dart
+The `network_request` package simplifies the process of making HTTP requests. Extend the `NetworkRequest` class and implement the required overrides to define your API manager.
+
+### 1. Extending `NetworkRequest`
+
+First, create a class that extends `NetworkRequest`. This class will serve as your API manager, where you configure base URLs, default headers, error decoders, and logging.
+
+```dartxw
+import 'package:network_request/network_request.dart';
+
 void main() {
   var network = MockAPIManger();
   network.fetchUser(1);
 }
 
 class MockAPIManger extends NetworkRequest {
-  // Can add authorization headers. Like basic Auth
-  // or Bearer token
   @override
-  Future<Map<String, String>> get authorizationHeader async => {};
-
-  @override
-  String get baseUrl => 'localhost:8080';
+  String get baseUrl => 'https://jsonplaceholder.typicode.com'; // Example base URL
 
   @override
   Future<Map<String, String>> get defaultHeader async => {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
 
-  // If response is outside of status 200 to 299
-  // then tries to parse response body too this Exception
+  // Optional: Add authorization headers if needed
+  @override
+  Future<Map<String, String>> get authorizationHeader async => {};
+
+  // Optional: Implement custom error decoding
   @override
   Exception? errorDecoder(dynamic data) {
     try {
@@ -66,32 +76,44 @@ class MockAPIManger extends NetworkRequest {
     }
   }
 
-  // Gives a well formatted log of Request and Response
-  // Also cURL command as logs are passed here
+  // Essential: Integrate the logging feature
+  // This method provides detailed logs, including cURL commands
   @override
   void log(String logString) {
     print(logString);
   }
 
-  // Can implement refresh token logic here
+  // Optional: Implement refresh token logic
   @override
   Future<bool> tryToReauthenticate() async {
     return false;
   }
 }
+```
 
+### 2. Defining API Endpoints
+After setting up your `NetworkRequest` extension, you can define specific API endpoints using an extension (or any other perfered way such as passing this `MockAPIManger` object to your service class) on your manager class.
+
+
+```dart
 extension on MockAPIManger {
   Future<MockAPIUser> fetchUser(int id) {
     return call(
       Request(
         method: Method.GET,
-        path: '/user/$id',
+        path: '/todos/$id', // Example path
         decode: (json) => MockAPIUser.fromJson(json),
       ),
     );
   }
 }
+```
 
+### 3. Example Models for Decoding
+
+To decode your API responses, you'll typically define data models.
+
+```dart
 class MockAPIError implements Exception {
   final int statusCode;
   final String message;
@@ -127,9 +149,10 @@ class MockAPIUser {
 }
 ```
 
-Find detail examples in `example` folder
+Find more detailed examples in the `example` folder.
 
-**Note:** A mock server API with dart was also created to test `network_request` functionality. you can find its [source code here](https://github.com/ZakaTiwana/network_request_mock_api)
-## Additional information
+**Note:** A mock server API with Dart was also created to test `network_request` functionality. You can find its [source code here](https://github.com/ZakaTiwana/network_request_mock_api)
+
+## 📚 Additional Information
 
 Feel free to leave any suggestions :) 
