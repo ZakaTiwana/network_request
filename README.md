@@ -45,7 +45,7 @@ The `network_request` package simplifies the process of making HTTP requests. Ex
 
 First, create a class that extends `NetworkRequest`. This class will serve as your API manager, where you configure base URLs, default headers, error decoders, and logging.
 
-```dartxw
+```dart
 import 'package:network_request/network_request.dart';
 
 void main() {
