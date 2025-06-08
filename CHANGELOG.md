@@ -4,7 +4,6 @@
 
 ## 0.0.2
 
-- http updated to `1.4.0`.
 - Readme updated.
 - `trimJsonLogs` added
 
