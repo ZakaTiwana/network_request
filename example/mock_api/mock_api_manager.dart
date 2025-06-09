@@ -35,4 +35,7 @@ class MockAPIManger extends NetworkRequest {
   Future<bool> tryToReauthenticate({dynamic client}) async {
     return false;
   }
+
+  @override
+  bool get isRequestHttps => false;
 }
