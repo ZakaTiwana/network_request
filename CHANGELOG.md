@@ -18,3 +18,7 @@
 ## 0.0.3+2
 
 - Topics added in description.
+
+## 0.0.4
+
+- Download and Upload progress callback added
