@@ -15,10 +15,11 @@ A powerful and comprehensive Dart package for simplifying **HTTP requests** and 
 
 ## ✨ Features
 
-- **Robust Network Service Creation**: Easily set up and manage your `API services` and `network layers`. 🚀
-- **Enhanced Logging for Debugging**: Get detailed logs for both `API requests` and `API responses`. Essential for quick bug fixing and `troubleshooting`. 🐞
-- **cURL Command Generation**: Get `cURL commands` for every network request for easy debugging and reproduction outside your application. 🐚
-- **Versatile Content Type Handling**: Out-of-the-box support for common **HTTP content types** like `application/json`, `text/plain`, `x-www-form-urlencoded`, and `multipart/form-data`. 📦
+- 🚀 Easily set up and manage your `API services` and `network layers`.
+- 🐞 Get detailed `logs` for both API requests and API responses. Essential for quick bug fixing and `troubleshooting`.
+- 🐚 Get `cURL commands` for every network request for easy debugging and reproduction outside your application.
+- 📦 Out-of-the-box support for common HTTP content types like `application/json`, `text/plain`, `x-www-form-urlencoded`, and `multipart/form-data`.
+- 📶 Get download and upload progress in simple callbacks.
 
 ## 📝 Logging Feature
 Best suited for JSON APIs. Get detailed logs for both requests and responses with a `terminal-pastable cURL command` for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.
@@ -34,7 +35,7 @@ network_request:
 ```
 Or from pub.dev use
 ```yaml
-network_request: 0.0.3+1
+network_request: 0.0.4
 ```
 
 ## 💡 Usage
