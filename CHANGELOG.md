@@ -14,3 +14,7 @@
 ## 0.0.3+1
 
 - Readme updated.
+
+## 0.0.3+2
+
+- Topics added in description.
