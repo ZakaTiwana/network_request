@@ -1,13 +1,17 @@
+import 'dart:async';
 import 'dart:convert' as converter;
 import 'dart:io';
 
 import 'package:http/retry.dart';
+import 'package:network_request/src/multipart_request_with_progress.dart';
+import 'package:collection/collection.dart' show CanonicalizedMap;
 
 import 'model/request.dart';
 import 'interface/network_request_manager_interface.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/api_exception.dart';
+import 'request_with_progress.dart';
 
 /// Extend this manager and add the required override. Then add methods
 /// to hit API endpoints through [call] method.
@@ -38,7 +42,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Returns a `http` [Uri] object from function [url]
   ///
   /// Override to return a `https` [Uri] object
-  bool isRequestHttps = false;
+  bool isRequestHttps = true;
 
   /// By default uses a retry client.
   ///
@@ -58,10 +62,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Add request specfic headers used
   /// by [request]. This will override
   /// the headers from [defaultHeader]
-  void _addRequestHeader(Request request) {
+  void _addRequestHeader(Request request, CanonicalizedMap canonicalizedMap) {
     final reqHeader = request.headers;
     if (reqHeader == null) return;
-    headers.addAll(reqHeader);
+    canonicalizedMap.addAll(reqHeader);
   }
 
   @override
@@ -83,10 +87,14 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// try to throw error decoded from [errorDecoder] And if not successful then
   /// throws [APIException]
   Future<R> call<R>(Request<R> request, {http.Client? presistClient}) async {
+    var canonicalizedMap =
+        CanonicalizedMap<String, String, String>((key) => key.toLowerCase());
     headers.clear();
-    headers.addAll(await defaultHeader);
-    _addRequestHeader(request);
-    headers.addAll(await authorizationHeader);
+    canonicalizedMap.addAll(await defaultHeader);
+    _addRequestHeader(request, canonicalizedMap);
+    canonicalizedMap.addAll(await authorizationHeader);
+    headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
+    canonicalizedMap.clear();
 
     bool isMultiPart = headers[HttpHeaders.contentTypeHeader]
             ?.toLowerCase()
@@ -99,12 +107,24 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     }
     final http.BaseRequest httpRequest;
     if (isMultiPart) {
-      httpRequest = http.MultipartRequest(
+      if (request.uploadProgress != null) {
+        httpRequest = MultipartRequestWithProgress(
+          request.method.name,
+          url(request),
+          request.uploadProgress!,
+        );
+      } else {
+        httpRequest = http.MultipartRequest(
+          request.method.name,
+          url(request),
+        );
+      }
+    } else {
+      httpRequest = RequestWithProgress(
         request.method.name,
         url(request),
+        request.uploadProgress,
       );
-    } else {
-      httpRequest = http.Request(request.method.name, url(request));
     }
 
     httpRequest.headers.addAll(headers);
@@ -145,8 +165,31 @@ abstract class NetworkRequest implements NetworkRequestInterface {
       log(_curlString(httpRequest, request));
     }
     try {
-      final response =
-          await http.Response.fromStream(await client.send(httpRequest));
+      final streamedResponse = await client.send(httpRequest);
+
+      http.Response response;
+      if (request.downloadProgress != null) {
+        int bytesRecieved = 0;
+        List<int> bytes = [];
+        final totalBytes = streamedResponse.contentLength ?? 0;
+        await for (var data in streamedResponse.stream) {
+          bytes.addAll(data);
+          bytesRecieved += data.length;
+          request.downloadProgress!(
+              bytesRecieved, totalBytes, bytesRecieved / totalBytes);
+        }
+        response = http.Response.bytes(
+          bytes,
+          streamedResponse.statusCode,
+          request: streamedResponse.request,
+          headers: streamedResponse.headers,
+          isRedirect: streamedResponse.isRedirect,
+          persistentConnection: streamedResponse.persistentConnection,
+          reasonPhrase: streamedResponse.reasonPhrase,
+        );
+      } else {
+        response = await http.Response.fromStream(streamedResponse);
+      }
 
       if (!(response.statusCode >= 200 && response.statusCode < 300)) {
         // error from network

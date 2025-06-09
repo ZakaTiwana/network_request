@@ -43,6 +43,8 @@ extension ExMockAPIManager on MockAPIManger {
   }
 
   Future<String> uploadPicture(int id) async {
+    var dCount = 0;
+    var upCount = 0;
     return call(
       Request(
         method: Method.POST,
@@ -58,6 +60,38 @@ extension ExMockAPIManager on MockAPIManger {
               'file', '${Directory.current.path}/assets/test.png'),
         ],
         decode: (json) => json,
+        downloadProgress: (bytes, totalBytes, percent) {
+          dCount += 1;
+          print(
+              "[uploadPicture - $dCount] downloadProgress - bytes: $bytes, totalBytes: $totalBytes, percent: $percent");
+        },
+        uploadProgress: (bytes, totalBytes, percent) {
+          upCount += 1;
+          print(
+              "[uploadPicture - $upCount] uploadProgress - bytes: $bytes, totalBytes: $totalBytes, percent: $percent");
+        },
+      ),
+    );
+  }
+
+  Future<void> downloadPicture() async {
+    var dCount = 0;
+    var upCount = 0;
+    return call(
+      Request(
+        method: Method.GET,
+        path: '/pic/test.png',
+        decode: (json) => json,
+        downloadProgress: (bytes, totalBytes, percent) {
+          dCount += 1;
+          print(
+              "[downloadPicture - $dCount] downloadProgress - bytes: $bytes, totalBytes: $totalBytes, percent: $percent");
+        },
+        uploadProgress: (bytes, totalBytes, percent) {
+          upCount += 1;
+          print(
+              "[downloadPicture - $upCount] uploadProgress - bytes: $bytes, totalBytes: $totalBytes, percent: $percent");
+        },
       ),
     );
   }
