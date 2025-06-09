@@ -18,15 +18,21 @@ void main() {
 
 // MockAPIManger
 
-void exampleMockAPIFormData() {
+void exampleMockAPIFormData() async {
   var network = MockAPIManger();
-  network.uploadPicture(1);
+  await network.uploadPicture(1);
+  await network.downloadPicture();
 }
 
 void exampleMockAPIUrlFormEncoded() {
   var network = MockAPIManger();
   network.addUserFromUrlEncoded(
-      MockAPIUser(id: 1001, name: 'Mock', profilePic: null));
+    MockAPIUser(
+      id: 1001,
+      name: 'Mock',
+      profilePic: null,
+    ),
+  );
 }
 
 void exampleMockAPI() {
