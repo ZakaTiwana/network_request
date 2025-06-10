@@ -25,4 +25,4 @@
 
 ## 0.0.4+1
 
-- Readme updated to highlight the `call` function
+- Readme updated to highlight the `call` method & Customizability `NetworkRequest` of explained
