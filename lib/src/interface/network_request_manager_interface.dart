@@ -13,7 +13,7 @@ abstract class NetworkRequestInterface {
 
   /// Should have a list of reponse
   /// status that should trigger [tryToReauthenticate]
-  List<int> get unautherizedStatusCode;
+  List<int> get unauthorizedStatusCode;
 
   /// Should generate the base domain, for all Requests
   ///

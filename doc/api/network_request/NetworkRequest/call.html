@@ -216,7 +216,7 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
         throw APIException(
             response.statusCode, &#39;Error from network in Refresh Request&#39;);
       }
-      if (unautherizedStatusCode.contains(response.statusCode)) {
+      if (unauthorizedStatusCode.contains(response.statusCode)) {
         try {
           if (await tryToReauthenticate(client: client)) {
             return await call(request, presistClient: client);
