@@ -49,11 +49,6 @@ First, create a class that extends `NetworkRequest`. This class will serve as yo
 ```dart
 import 'package:network_request/network_request.dart';
 
-void main() {
-  var network = MockAPIManger();
-  network.fetchUser(1);
-}
-
 class MockAPIManger extends NetworkRequest {
   @override
   String get baseUrl => 'https://jsonplaceholder.typicode.com'; // Example base URL
@@ -68,6 +63,7 @@ class MockAPIManger extends NetworkRequest {
   Future<Map<String, String>> get authorizationHeader async => {};
 
   // Optional: Implement custom error decoding
+  // this is triggered in the case if status code is not in 200-299
   @override
   Exception? errorDecoder(dynamic data) {
     try {
@@ -92,8 +88,20 @@ class MockAPIManger extends NetworkRequest {
 }
 ```
 
+There are order properties and methods you can use to further customize the API Manager extended from `NetworkRequest` such as.
+- `initalizeClient` override it, to inialize a custom `http.Client`.
+- `isRequestHttps` for letting the manager know if this a `http` or `https` connection.
+- `trimJsonLogs`, `enableLog` & `enableCurlLog` for configuring logging.
+- `unautherizedStatusCode` a list of status code which will trigger `tryToReauthenticate`.
+- `encodeBody` & `decodeBody` to add custom logic for encoding request body and/or decoding response result.
+
+**Note:** Details are mentioned on the method comments.
+
 ### 2. Defining API Endpoints
-After setting up your `NetworkRequest` extension, you can define specific API endpoints using an extension (or any other perfered way such as passing this `MockAPIManger` object to your service class) on your manager class.
+To trigger an API endpoint, we have the method `call` in our `NetworkRequest`.
+`call` takes a `Request` object in which we can define all the endpoint related information. such as what http `method` we are using, whats its `path`, what are the `query` parameters or its `body` if any & how to `decode` its OK response's body.
+
+After setting up your `NetworkRequest` extension, you can define specific API endpoints using an extension on your manager class or any other perfered way such as passing this `MockAPIManger` object to your service class.
 
 
 ```dart
@@ -107,6 +115,15 @@ extension on MockAPIManger {
       ),
     );
   }
+}
+```
+
+Call the endpoint method where appropriate.
+
+```dart
+void main() {
+  var network = MockAPIManger();
+  network.fetchUser(1);
 }
 ```
 
