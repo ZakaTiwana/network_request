@@ -124,7 +124,7 @@ class MockAPIManger extends NetworkRequest {
 <li><code>initalizeClient</code> override it, to inialize a custom <code>http.Client</code>.</li>
 <li><code>isRequestHttps</code> for letting the manager know if this a <code>http</code> or <code>https</code> connection.</li>
 <li><code>trimJsonLogs</code>, <code>enableLog</code> &amp; <code>enableCurlLog</code> for configuring logging.</li>
-<li><code>unautherizedStatusCode</code> a list of status code which will trigger <code>tryToReauthenticate</code>.</li>
+<li><code>unauthorizedStatusCode</code> a list of status code which will trigger <code>tryToReauthenticate</code>.</li>
 <li><code>encodeBody</code> &amp; <code>decodeBody</code> to add custom logic for encoding request body and/or decoding response result.</li>
 </ul>
 <p><strong>Note:</strong> Details are mentioned on the method comments.</p>

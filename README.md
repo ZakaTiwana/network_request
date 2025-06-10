@@ -92,7 +92,7 @@ There are order properties and methods you can use to further customize the API 
 - `initalizeClient` override it, to inialize a custom `http.Client`.
 - `isRequestHttps` for letting the manager know if this a `http` or `https` connection.
 - `trimJsonLogs`, `enableLog` & `enableCurlLog` for configuring logging.
-- `unautherizedStatusCode` a list of status code which will trigger `tryToReauthenticate`.
+- `unauthorizedStatusCode` a list of status code which will trigger `tryToReauthenticate`.
 - `encodeBody` & `decodeBody` to add custom logic for encoding request body and/or decoding response result.
 
 **Note:** Details are mentioned on the method comments.

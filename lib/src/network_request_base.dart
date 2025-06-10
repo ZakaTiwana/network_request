@@ -60,7 +60,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// [tryToReauthenticate].
   ///
   /// Override to add other status codes.
-  List<int> get unautherizedStatusCode => [HttpStatus.unauthorized];
+  List<int> get unauthorizedStatusCode => [HttpStatus.unauthorized];
 
   /// Add request specfic headers used
   /// by [request]. This will override
@@ -200,7 +200,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
           throw APIException(
               response.statusCode, 'Error from network in Refresh Request');
         }
-        if (unautherizedStatusCode.contains(response.statusCode)) {
+        if (unauthorizedStatusCode.contains(response.statusCode)) {
           try {
             if (await tryToReauthenticate(client: client)) {
               return await call(request, presistClient: client);
