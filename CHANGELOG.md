@@ -35,4 +35,4 @@
 ### Breaking Change
 - Typo fixed: `unautherizedStatusCode` updated to `unauthorizedStatusCode`. You will have to rename if you have override it where you have extended `NetworkRequest` otherwise you can ignore. Rename to `unauthorizedStatusCode`  If you have override it else you can ignore.
 
-- `headers` field made private to avoid any unintended behaviour. It is no longer accessible for subclasses.
+- `headers` field in `NetworkRequest` made private to avoid any unintended behaviour. It is no longer accessible for subclasses.
