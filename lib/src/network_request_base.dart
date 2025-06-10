@@ -52,7 +52,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Don't override.
   /// Can lead to unexpected behaviours; its used internally
   /// In future release will make it private.
-  final Map<String, String> headers = {};
+  final Map<String, String> _headers = {};
 
   @override
 
@@ -92,14 +92,14 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   Future<R> call<R>(Request<R> request, {http.Client? presistClient}) async {
     var canonicalizedMap =
         CanonicalizedMap<String, String, String>((key) => key.toLowerCase());
-    headers.clear();
+    _headers.clear();
     canonicalizedMap.addAll(await defaultHeader);
     _addRequestHeader(request, canonicalizedMap);
     canonicalizedMap.addAll(await authorizationHeader);
-    headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
+    _headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
     canonicalizedMap.clear();
 
-    bool isMultiPart = headers[HttpHeaders.contentTypeHeader]
+    bool isMultiPart = _headers[HttpHeaders.contentTypeHeader]
             ?.toLowerCase()
             .contains('multipart/form-data') ==
         true;
@@ -130,7 +130,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
       );
     }
 
-    httpRequest.headers.addAll(headers);
+    httpRequest.headers.addAll(_headers);
     final body = request.body;
     if (body != null) {
       if (isMultiPart && httpRequest is http.MultipartRequest) {
@@ -296,7 +296,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         result += "--header '$key: $value' \\\n";
       });
     }
-    final contentType = headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+    final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
     if (contentType == null) {
       // remove extra '/' & '/n' from last header
       result = result.substring(0, result.length - 2);
@@ -402,7 +402,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Override to add custom encoding
   String encodeBody(dynamic requestBody,
       {converter.Encoding encoding = converter.utf8}) {
-    final contentType = headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+    final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
     if (contentType == null) {
       throw StateError(
           "Header, ${HttpHeaders.contentTypeHeader} cannot be null");
