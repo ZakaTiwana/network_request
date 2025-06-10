@@ -64,6 +64,8 @@
 <li><span class="parameter" id="-param-files"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.0/dart-core/List-class.html">List</a>?</span> <span class="parameter-name">files</span>, </span></li>
 <li><span class="parameter" id="-param-encoding"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.0/dart-convert/Encoding-class.html">Encoding</a></span> <span class="parameter-name">encoding</span> = <span class="default-value">converter.utf8</span>, </span></li>
 <li><span class="parameter" id="-param-isRefreshRequest"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.0/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isRefreshRequest</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="-param-downloadProgress"><span class="type-annotation">Progress?</span> <span class="parameter-name">downloadProgress</span>, </span></li>
+<li><span class="parameter" id="-param-uploadProgress"><span class="type-annotation">Progress?</span> <span class="parameter-name">uploadProgress</span>, </span></li>
 </ol>})
     </section>
     
@@ -83,6 +85,8 @@
   this.files,
   this.encoding = converter.utf8,
   this.isRefreshRequest = false,
+  this.downloadProgress,
+  this.uploadProgress,
 });</code></pre>
 </section>
 
@@ -111,7 +115,7 @@
 <footer>
   <span class="no-break">
     network_request
-      0.0.2
+      0.0.4+1
   </span>
   
 </footer>
