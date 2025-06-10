@@ -49,6 +49,9 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Override to add your custom [http.Client]
   http.Client initalizeClient() => RetryClient(http.Client());
 
+  /// Don't override.
+  /// Can lead to unexpected behaviours; its used internally
+  /// In future release will make it private.
   final Map<String, String> headers = {};
 
   @override
@@ -391,8 +394,8 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   @override
 
-  /// Handel encoding based upon `Content-Type` in headers.
-  /// Able to handel form url-encoded, text plan and defaults to json
+  /// Handle encoding based upon `Content-Type` in headers.
+  /// Able to handle `x-www-form-urlencoded`, `multipart/form-data`, `text plan` and defaults to `json`
   ///
   /// throws [StateError] if `Content-Type` header is not set
   ///
