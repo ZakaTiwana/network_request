@@ -29,4 +29,4 @@
 
 ## 0.1.0
 
-- **Breaking Change** Typo fixed
+- **Breaking Change** Typo fixed: `unautherizedStatusCode` updated to `unauthorizedStatusCode`. 
