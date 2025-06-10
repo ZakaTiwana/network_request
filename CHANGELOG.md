@@ -22,3 +22,7 @@
 ## 0.0.4
 
 - Download and Upload progress callback added
+
+## 0.0.4+1
+
+- Readme updated to highlight the `call` function
