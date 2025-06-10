@@ -162,7 +162,9 @@ want to add any default headers
 
 </dt>
 <dd>
-  
+  Don't override.
+Can lead to unexpected behaviours; its used internally
+In future release will make it private.
   <div class="features"><span class="feature">final</span></div>
 
 </dd>
@@ -264,8 +266,8 @@ if fails then return the <code>responseBody</code> string itself
 
 </dt>
 <dd>
-  Handel encoding based upon <code>Content-Type</code> in headers.
-Able to handel form url-encoded, text plan and defaults to json
+  Handle encoding based upon <code>Content-Type</code> in headers.
+Able to handle <code>x-www-form-urlencoded</code>, <code>multipart/form-data</code>, <code>text plan</code> and defaults to <code>json</code>
   
 
 </dd>
@@ -430,7 +432,7 @@ refresh token logic here.
 <footer>
   <span class="no-break">
     network_request
-      0.0.2
+      0.0.4+1
   </span>
   
 </footer>

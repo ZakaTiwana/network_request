@@ -58,32 +58,28 @@ and the Flutter guide for
 <p>A powerful and comprehensive Dart package for simplifying <strong>HTTP requests</strong> and interacting with <strong>RESTful APIs</strong> in Flutter and Dart applications. This package provides an organized and efficient way to handle all your <strong>networking</strong> needs, leveraging the robust <a href="https://pub.dev/packages/http">http package</a> for actual <strong>network calls</strong>. Experience streamlined <strong>API integration</strong>, enhanced <strong>debugging capabilities</strong>, and a developer-friendly approach to <strong>data fetching</strong>.</p>
 <h2 id="-features">✨ Features</h2>
 <ul>
-<li><strong>Robust Network Service Creation</strong>: Easily set up and manage your <code>API services</code> and <code>network layers</code>. 🚀</li>
-<li><strong>Enhanced Logging for Debugging</strong>: Get detailed logs for both <code>API requests</code> and <code>API responses</code>. Essential for quick bug fixing and <code>troubleshooting</code>. 🐞</li>
-<li><strong>cURL Command Generation</strong>: Get <code>cURL commands</code> for every network request for easy debugging and reproduction outside your application. 🐚</li>
-<li><strong>Versatile Content Type Handling</strong>: Out-of-the-box support for common <strong>HTTP content types</strong> like <code>application/json</code>, <code>text/plain</code>, <code>x-www-form-urlencoded</code>, and <code>multipart/form-data</code>. 📦</li>
+<li>🚀 Easily set up and manage your <code>API services</code> and <code>network layers</code>.</li>
+<li>🐞 Get detailed <code>logs</code> for both API requests and API responses. Essential for quick bug fixing and <code>troubleshooting</code>.</li>
+<li>🐚 Get <code>cURL commands</code> for every network request for easy debugging and reproduction outside your application.</li>
+<li>📦 Out-of-the-box support for common HTTP content types like <code>application/json</code>, <code>text/plain</code>, <code>x-www-form-urlencoded</code>, and <code>multipart/form-data</code>.</li>
+<li>📶 Get download and upload progress in simple callbacks.</li>
 </ul>
 <h2 id="-logging-feature">📝 Logging Feature</h2>
 <p>Best suited for JSON APIs. Get detailed logs for both requests and responses with a <code>terminal-pastable cURL command</code> for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.</p>
-<p><img src="./assets/log%20print%20example.png" alt="Network Request Log Example"></p>
+<p><img src="https://raw.githubusercontent.com/ZakaTiwana/network_request/main/assets/log%20print%20example.png" alt="Network Request Log Example"></p>
 <h2 id="-getting-started">🚀 Getting started</h2>
 <p>In your Dart/Flutter project add the following line to <code>pubspec.yaml</code> file</p>
 <pre class="language-yaml"><code class="language-yaml">network_request:
     git: https://github.com/ZakaTiwana/network_request.git
 </code></pre>
 <p>Or from pub.dev use</p>
-<pre class="language-yaml"><code class="language-yaml">network_request: 0.0.3
+<pre class="language-yaml"><code class="language-yaml">network_request: 0.0.4+1
 </code></pre>
 <h2 id="-usage">💡 Usage</h2>
 <p>The <code>network_request</code> package simplifies the process of making HTTP requests. Extend the <code>NetworkRequest</code> class and implement the required overrides to define your API manager.</p>
 <h3 id="1-extending-networkrequest">1. Extending <code>NetworkRequest</code></h3>
 <p>First, create a class that extends <code>NetworkRequest</code>. This class will serve as your API manager, where you configure base URLs, default headers, error decoders, and logging.</p>
 <pre class="language-dart"><code class="language-dart">import 'package:network_request/network_request.dart';
-
-void main() {
-  var network = MockAPIManger();
-  network.fetchUser(1);
-}
 
 class MockAPIManger extends NetworkRequest {
   @override
@@ -99,6 +95,7 @@ class MockAPIManger extends NetworkRequest {
   Future&lt;Map&lt;String, String&gt;&gt; get authorizationHeader async =&gt; {};
 
   // Optional: Implement custom error decoding
+  // this is triggered in the case if status code is not in 200-299
   @override
   Exception? errorDecoder(dynamic data) {
     try {
@@ -122,8 +119,19 @@ class MockAPIManger extends NetworkRequest {
   }
 }
 </code></pre>
+<p>There are order properties and methods you can use to further customize the API Manager extended from <code>NetworkRequest</code> such as.</p>
+<ul>
+<li><code>initalizeClient</code> override it, to inialize a custom <code>http.Client</code>.</li>
+<li><code>isRequestHttps</code> for letting the manager know if this a <code>http</code> or <code>https</code> connection.</li>
+<li><code>trimJsonLogs</code>, <code>enableLog</code> &amp; <code>enableCurlLog</code> for configuring logging.</li>
+<li><code>unautherizedStatusCode</code> a list of status code which will trigger <code>tryToReauthenticate</code>.</li>
+<li><code>encodeBody</code> &amp; <code>decodeBody</code> to add custom logic for encoding request body and/or decoding response result.</li>
+</ul>
+<p><strong>Note:</strong> Details are mentioned on the method comments.</p>
 <h3 id="2-defining-api-endpoints">2. Defining API Endpoints</h3>
-<p>After setting up your <code>NetworkRequest</code> extension, you can define specific API endpoints using an extension (or any other perfered way such as passing this <code>MockAPIManger</code> object to your service class) on your manager class.</p>
+<p>To trigger an API endpoint, we have the method <code>call</code> in our <code>NetworkRequest</code>.
+<code>call</code> takes a <code>Request</code> object in which we can define all the endpoint related information. such as what http <code>method</code> we are using, whats its <code>path</code>, what are the <code>query</code> parameters or its <code>body</code> if any &amp; how to <code>decode</code> its OK response's body.</p>
+<p>After setting up your <code>NetworkRequest</code> extension, you can define specific API endpoints using an extension on your manager class or any other perfered way such as passing this <code>MockAPIManger</code> object to your service class.</p>
 <pre class="language-dart"><code class="language-dart">extension on MockAPIManger {
   Future&lt;MockAPIUser&gt; fetchUser(int id) {
     return call(
@@ -134,6 +142,12 @@ class MockAPIManger extends NetworkRequest {
       ),
     );
   }
+}
+</code></pre>
+<p>Call the endpoint method where appropriate.</p>
+<pre class="language-dart"><code class="language-dart">void main() {
+  var network = MockAPIManger();
+  network.fetchUser(1);
 }
 </code></pre>
 <h3 id="3-example-models-for-decoding">3. Example Models for Decoding</h3>
@@ -216,7 +230,7 @@ class MockAPIUser {
 <footer>
   <span class="no-break">
     network_request
-      0.0.2
+      0.0.4+1
   </span>
   
 </footer>

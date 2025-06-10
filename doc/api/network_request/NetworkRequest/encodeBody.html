@@ -69,8 +69,8 @@
     </section>
     
 <section class="desc markdown">
-  <p>Handel encoding based upon <code>Content-Type</code> in headers.
-Able to handel form url-encoded, text plan and defaults to json</p>
+  <p>Handle encoding based upon <code>Content-Type</code> in headers.
+Able to handle <code>x-www-form-urlencoded</code>, <code>multipart/form-data</code>, <code>text plan</code> and defaults to <code>json</code></p>
 <p>throws <a href="https://api.dart.dev/stable/3.8.0/dart-core/StateError-class.html">StateError</a> if <code>Content-Type</code> header is not set</p>
 <p>Override to add custom encoding</p>
 </section>
@@ -81,8 +81,8 @@ Able to handel form url-encoded, text plan and defaults to json</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 
-&#47;&#47;&#47; Handel encoding based upon `Content-Type` in headers.
-&#47;&#47;&#47; Able to handel form url-encoded, text plan and defaults to json
+&#47;&#47;&#47; Handle encoding based upon `Content-Type` in headers.
+&#47;&#47;&#47; Able to handle `x-www-form-urlencoded`, `multipart&#47;form-data`, `text plan` and defaults to `json`
 &#47;&#47;&#47;
 &#47;&#47;&#47; throws [StateError] if `Content-Type` header is not set
 &#47;&#47;&#47;
@@ -152,7 +152,7 @@ String encodeBody(dynamic requestBody,
 <footer>
   <span class="no-break">
     network_request
-      0.0.2
+      0.0.4+1
   </span>
   
 </footer>
