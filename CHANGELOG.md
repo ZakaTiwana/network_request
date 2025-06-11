@@ -30,7 +30,7 @@
 ## 0.1.0
 
 ### New Features
-- Successful responses status codes made customizable. Defaults to 200-299. 
+- Successful response status codes made customizable. Defaults to 200-299. 
 - More information given to decodeError.
 - Examples improved
 
