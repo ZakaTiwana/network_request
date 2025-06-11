@@ -56,10 +56,10 @@
       
   <div>
     <ol class="annotation-list">
-        <li>@<a href="https://api.dart.dev/stable/3.8.0/dart-core/override-constant.html">override</a></li>
+        <li>@<a href="https://api.dart.dev/stable/3.8.1/dart-core/override-constant.html">override</a></li>
     </ol>
   </div>
-<span class="returntype"><a href="https://api.dart.dev/stable/3.8.0/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
 <span class="name ">call</span>&lt;<wbr><span class="type-parameter">R</span>&gt;(<wbr><ol class="parameter-list"> <li><span class="parameter" id="call-param-request"><span class="type-annotation"><a href="../../network_request/Request-class.html">Request</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">request</span>, {</span></li>
 <li><span class="parameter" id="call-param-presistClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">presistClient</span>, </span></li>
 </ol>})
@@ -71,15 +71,15 @@
 <section class="desc markdown">
   <p>Uses <code>request</code> to generate a request
 of a network call. If <code>presistClient</code> is not provided
-then genreate a <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a> by <a href="../../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a>
-and when call is completed then closes the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a>.</p>
+then genreates a <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a> by <a href="../../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a>
+and when the API call is completed it closes the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a>.</p>
 <p>if <code>presistClient</code> is provided then uses it to
-make the call and does not close the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a></p>
-<p>Throws <a href="https://api.dart.dev/stable/3.8.0/dart-core/ArgumentError-class.html">ArgumentError</a> if <code>request.body</code> or <code>request.files</code> does not conform
-to correct type. for multipart/form-data request <code>request.files</code> should be <a href="https://api.dart.dev/stable/3.8.0/dart-core/List-class.html">List</a> of <a href="https://pub.dev/documentation/http/1.4.0/http/MultipartFile-class.html">http.MultipartFile</a></p>
+make the API call and does not close the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a></p>
+<p>Throws <a href="https://api.dart.dev/stable/3.8.1/dart-core/ArgumentError-class.html">ArgumentError</a> if <code>request.body</code> or <code>request.files</code> does not conform
+to correct type. for multipart/form-data request <code>request.files</code> should be <a href="https://api.dart.dev/stable/3.8.1/dart-core/List-class.html">List</a> of <a href="https://pub.dev/documentation/http/1.4.0/http/MultipartFile-class.html">http.MultipartFile</a></p>
 <p>Throws <a href="../../network_request/DecodingError-class.html">DecodingError</a> if <code>request.decode</code> was not able to decode data from <a href="../../network_request/NetworkRequest/decodeBody.html">decodeBody</a></p>
-<p>If response status code does not lie in <code>200 to &lt; 300</code> then first
-try to throw error decoded from <code>errorDecoder</code> And if not successful then
+<p>If response status code does not lie in <a href="../../network_request/NetworkRequest/successfulResponsesStatusCode.html">successfulResponsesStatusCode</a> (which defaults to 200...299) then first
+try to throw error decoded from <code>errorDecoder</code> And if that i not successful then
 throws <a href="../../network_request/APIException-class.html">APIException</a></p>
 </section>
 
@@ -91,31 +91,31 @@ throws <a href="../../network_request/APIException-class.html">APIException</a><
 
 &#47;&#47;&#47; Uses [request] to generate a request
 &#47;&#47;&#47; of a network call. If [presistClient] is not provided
-&#47;&#47;&#47; then genreate a [http.Client] by [initalizeClient]
-&#47;&#47;&#47; and when call is completed then closes the [http.Client].
+&#47;&#47;&#47; then genreates a [http.Client] by [initalizeClient]
+&#47;&#47;&#47; and when the API call is completed it closes the [http.Client].
 &#47;&#47;&#47;
 &#47;&#47;&#47; if [presistClient] is provided then uses it to
-&#47;&#47;&#47; make the call and does not close the [http.Client]
+&#47;&#47;&#47; make the API call and does not close the [http.Client]
 &#47;&#47;&#47;
 &#47;&#47;&#47; Throws [ArgumentError] if `request.body` or `request.files` does not conform
 &#47;&#47;&#47; to correct type. for multipart&#47;form-data request `request.files` should be [List] of [http.MultipartFile]
 &#47;&#47;&#47;
 &#47;&#47;&#47; Throws [DecodingError] if `request.decode` was not able to decode data from [decodeBody]
 &#47;&#47;&#47;
-&#47;&#47;&#47; If response status code does not lie in `200 to &lt; 300` then first
-&#47;&#47;&#47; try to throw error decoded from [errorDecoder] And if not successful then
+&#47;&#47;&#47; If response status code does not lie in [successfulResponsesStatusCode] (which defaults to 200...299) then first
+&#47;&#47;&#47; try to throw error decoded from [errorDecoder] And if that i not successful then
 &#47;&#47;&#47; throws [APIException]
 Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistClient}) async {
   var canonicalizedMap =
       CanonicalizedMap&lt;String, String, String&gt;((key) =&gt; key.toLowerCase());
-  headers.clear();
+  _headers.clear();
   canonicalizedMap.addAll(await defaultHeader);
   _addRequestHeader(request, canonicalizedMap);
   canonicalizedMap.addAll(await authorizationHeader);
-  headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
+  _headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
   canonicalizedMap.clear();
 
-  bool isMultiPart = headers[HttpHeaders.contentTypeHeader]
+  bool isMultiPart = _headers[HttpHeaders.contentTypeHeader]
           ?.toLowerCase()
           .contains(&#39;multipart&#47;form-data&#39;) ==
       true;
@@ -146,7 +146,7 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
     );
   }
 
-  httpRequest.headers.addAll(headers);
+  httpRequest.headers.addAll(_headers);
   final body = request.body;
   if (body != null) {
     if (isMultiPart &amp;&amp; httpRequest is http.MultipartRequest) {
@@ -210,7 +210,10 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
       response = await http.Response.fromStream(streamedResponse);
     }
 
-    if (!(response.statusCode &gt;= 200 &amp;&amp; response.statusCode &lt; 300)) {
+    final unsuccessfulResponse =
+        successfulResponsesStatusCode.contains(response.statusCode) == false;
+
+    if (unsuccessfulResponse) {
       &#47;&#47; error from network
       if (request.isRefreshRequest) {
         throw APIException(
@@ -223,7 +226,8 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
           }
         } catch (_) {}
       }
-      final error = errorDecoder(response.body);
+      final capturedResponse = CapturedResponse.fromHttpResponse(response);
+      final error = errorDecoder(capturedResponse);
       if (error != null) throw error;
       throw APIException(response.statusCode, response.body);
     }
@@ -273,7 +277,7 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>

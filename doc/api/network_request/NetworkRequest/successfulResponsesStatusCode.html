@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the downloadProgress property from the Request class, for the Dart programming language.">
-  <title>downloadProgress property - Request class - network_request library - Dart API</title>
+  <meta name="description" content="API docs for the successfulResponsesStatusCode property from the NetworkRequest class, for the Dart programming language.">
+  <title>successfulResponsesStatusCode property - NetworkRequest class - network_request library - Dart API</title>
 
 
   
@@ -26,10 +26,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request.dart</a></li>
-    <li><a href="../../network_request/Request-class.html">Request<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
-    <li class="self-crumb">downloadProgress property</li>
+    <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
+    <li class="self-crumb">successfulResponsesStatusCode property</li>
   </ol>
-  <div class="self-name">downloadProgress</div>
+  <div class="self-name">successfulResponsesStatusCode</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -46,35 +46,47 @@
 <div
     id="dartdoc-main-content"
     class="main-content"
-    data-above-sidebar="network_request&#47;Request-class-sidebar.html"
+    data-above-sidebar="network_request&#47;NetworkRequest-class-sidebar.html"
     data-below-sidebar="">
     <div>
-<h1><span class="kind-property">downloadProgress</span> property 
+<h1><span class="kind-property">successfulResponsesStatusCode</span> property 
 </h1></div>
 
     
-      <section class="multi-line-signature">
-        
-        Progress?
-        <span class="name ">downloadProgress</span>
-        <div class="features"><span class="feature">final</span></div>
-
-      </section>
-      
-<section class="desc markdown">
-  <p>Callback to get the progress of the download
-<code>totalBytes</code> will only be available if response
-has <code>Content-Length</code> header</p>
-</section>
-
-      
-<section class="summary source-code" id="source">
-  <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">final Progress? downloadProgress;</code></pre>
-</section>
-
 
     
+        
+  <section id="getter">
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.dart.dev/stable/3.8.1/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+      <span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.8.1/dart-core/int-class.html">int</a></span>&gt;</span></span>
+      get
+      <span class="name ">successfulResponsesStatusCode</span>
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>By default its <code>200...299</code></p>
+<p>Override to add other status codes.</p>
+</section>
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+List&lt;int&gt; get successfulResponsesStatusCode =&gt;
+    List.generate(100, (index) =&gt; 200 + index);</code></pre>
+</section>
+
+  </section>
+
+
 </div> <!-- /.main-content -->
 <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
   <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
@@ -86,11 +98,11 @@ has <code>Content-Length</code> header</p>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request</a></li>
-    <li><a href="../../network_request/Request-class.html">Request<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
-    <li class="self-crumb">downloadProgress property</li>
+    <li><a href="../../network_request/NetworkRequest-class.html">NetworkRequest</a></li>
+    <li class="self-crumb">successfulResponsesStatusCode property</li>
 </ol>
 
-  <h5>Request class</h5>
+  <h5>NetworkRequest class</h5>
   <div id="dartdoc-sidebar-left-content"></div>
 </div><!--/.sidebar-offcanvas-->
 <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
