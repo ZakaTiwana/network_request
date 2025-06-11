@@ -56,12 +56,12 @@
       
   <div>
     <ol class="annotation-list">
-        <li>@<a href="https://api.dart.dev/stable/3.8.0/dart-core/override-constant.html">override</a></li>
+        <li>@<a href="https://api.dart.dev/stable/3.8.1/dart-core/override-constant.html">override</a></li>
     </ol>
   </div>
-<span class="returntype"><a href="https://api.dart.dev/stable/3.8.0/dart-core/String-class.html">String</a></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/String-class.html">String</a></span>
 <span class="name ">encodeBody</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="encodeBody-param-requestBody"><span class="type-annotation">dynamic</span> <span class="parameter-name">requestBody</span>, {</span></li>
-<li><span class="parameter" id="encodeBody-param-encoding"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.0/dart-convert/Encoding-class.html">Encoding</a></span> <span class="parameter-name">encoding</span> = <span class="default-value">converter.utf8</span>, </span></li>
+<li><span class="parameter" id="encodeBody-param-encoding"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.1/dart-convert/Encoding-class.html">Encoding</a></span> <span class="parameter-name">encoding</span> = <span class="default-value">converter.utf8</span>, </span></li>
 </ol>})
 
       
@@ -71,7 +71,7 @@
 <section class="desc markdown">
   <p>Handle encoding based upon <code>Content-Type</code> in headers.
 Able to handle <code>x-www-form-urlencoded</code>, <code>multipart/form-data</code>, <code>text plan</code> and defaults to <code>json</code></p>
-<p>throws <a href="https://api.dart.dev/stable/3.8.0/dart-core/StateError-class.html">StateError</a> if <code>Content-Type</code> header is not set</p>
+<p>throws <a href="https://api.dart.dev/stable/3.8.1/dart-core/StateError-class.html">StateError</a> if <code>Content-Type</code> header is not set</p>
 <p>Override to add custom encoding</p>
 </section>
 
@@ -89,7 +89,7 @@ Able to handle <code>x-www-form-urlencoded</code>, <code>multipart/form-data</co
 &#47;&#47;&#47; Override to add custom encoding
 String encodeBody(dynamic requestBody,
     {converter.Encoding encoding = converter.utf8}) {
-  final contentType = headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+  final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
   if (contentType == null) {
     throw StateError(
         &quot;Header, ${HttpHeaders.contentTypeHeader} cannot be null&quot;);
@@ -152,7 +152,7 @@ String encodeBody(dynamic requestBody,
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>

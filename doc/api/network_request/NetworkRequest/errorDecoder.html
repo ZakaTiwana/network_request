@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.8.0/dart-core/Exception-class.html">Exception</a>?</span>
-<span class="name ">errorDecoder</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="errorDecoder-param-data"><span class="type-annotation">dynamic</span> <span class="parameter-name">data</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/Exception-class.html">Exception</a>?</span>
+<span class="name ">errorDecoder</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="errorDecoder-param-response"><span class="type-annotation">CapturedResponse</span> <span class="parameter-name">response</span></span></li>
 </ol>)
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -64,8 +64,10 @@
     
 <section class="desc markdown">
   <p>Should implement a decoder.
-To decode the Error object in
-response from the network call.</p>
+that decodes the into a <a href="https://api.dart.dev/stable/3.8.1/dart-core/Exception-class.html">Exception</a> object
+from the response as <code>CapturedResponse</code> from the network call.
+Useful to implement your custom error logic here rather than
+use <code>try-catch and rethrow</code> on <a href="../../network_request/APIException-class.html">APIException</a></p>
 <p>If decoding fails then should return <code>null</code>.
 It should not throw an Exception</p>
 </section>
@@ -74,7 +76,7 @@ It should not throw an Exception</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Exception? errorDecoder(dynamic data);</code></pre>
+  <pre class="language-dart"><code class="language-dart">Exception? errorDecoder(CapturedResponse response);</code></pre>
 </section>
 
 
@@ -102,7 +104,7 @@ It should not throw an Exception</p>
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>
