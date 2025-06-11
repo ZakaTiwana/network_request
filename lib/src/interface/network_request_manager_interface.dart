@@ -11,9 +11,13 @@ abstract class NetworkRequestInterface {
   /// want to add any authorization headers
   Future<Map<String, String>> get authorizationHeader;
 
-  /// Should have a list of reponse
+  /// Should have a list of response
   /// status that should trigger [tryToReauthenticate]
   List<int> get unauthorizedStatusCode;
+
+  /// Should have a list of response
+  /// status that should trigger the happy flow
+  List<int> get successfulResponsesStatusCode;
 
   /// Should generate the base domain, for all Requests
   ///

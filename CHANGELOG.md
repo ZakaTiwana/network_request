@@ -30,9 +30,12 @@
 ## 0.1.0
 
 ### New Features
-- `headers` field made private to avoid any unintended behaviour.
+- Successful responses status codes made customizable. Defaults to 200-299. 
+- More information given to decodeError.
 
 ### Breaking Change
-- Typo fixed: `unautherizedStatusCode` updated to `unauthorizedStatusCode`. You will have to rename if you have override it where you have extended `NetworkRequest` otherwise you can ignore. Rename to `unauthorizedStatusCode`  If you have override it else you can ignore.
+- Typo fixed: `unautherizedStatusCode` has been updated to `unauthorizedStatusCode`. You will need to rename it if you have overridden it in your extended `NetworkRequest`; otherwise, you can ignore this.
 
 - `headers` field in `NetworkRequest` made private to avoid any unintended behaviour. It is no longer accessible for subclasses.
+
+- `decodeError` parameters have chaged to send Reponse instead of dynamic.
