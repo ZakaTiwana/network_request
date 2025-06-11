@@ -62,6 +62,13 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Override to add other status codes.
   List<int> get unauthorizedStatusCode => [HttpStatus.unauthorized];
 
+  /// By default its [200...299]
+  ///
+  /// Override to add other status codes.
+  @override
+  List<int> get successfulResponsesStatusCode =>
+      List.generate(100, (index) => 200 + index);
+
   /// Add request specfic headers used
   /// by [request]. This will override
   /// the headers from [defaultHeader]
@@ -75,19 +82,19 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   /// Uses [request] to generate a request
   /// of a network call. If [presistClient] is not provided
-  /// then genreate a [http.Client] by [initalizeClient]
-  /// and when call is completed then closes the [http.Client].
+  /// then genreates a [http.Client] by [initalizeClient]
+  /// and when the API call is completed it closes the [http.Client].
   ///
   /// if [presistClient] is provided then uses it to
-  /// make the call and does not close the [http.Client]
+  /// make the API call and does not close the [http.Client]
   ///
   /// Throws [ArgumentError] if `request.body` or `request.files` does not conform
   /// to correct type. for multipart/form-data request `request.files` should be [List] of [http.MultipartFile]
   ///
   /// Throws [DecodingError] if `request.decode` was not able to decode data from [decodeBody]
   ///
-  /// If response status code does not lie in `200 to < 300` then first
-  /// try to throw error decoded from [errorDecoder] And if not successful then
+  /// If response status code does not lie in [successfulResponsesStatusCode] (which defaults to 200...299) then first
+  /// try to throw error decoded from [errorDecoder] And if that i not successful then
   /// throws [APIException]
   Future<R> call<R>(Request<R> request, {http.Client? presistClient}) async {
     var canonicalizedMap =
@@ -194,7 +201,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         response = await http.Response.fromStream(streamedResponse);
       }
 
-      if (!(response.statusCode >= 200 && response.statusCode < 300)) {
+      final unsuccessfulResponse =
+          successfulResponsesStatusCode.contains(response.statusCode) == false;
+
+      if (unsuccessfulResponse) {
         // error from network
         if (request.isRefreshRequest) {
           throw APIException(
