@@ -73,7 +73,7 @@ and the Flutter guide for
     git: https://github.com/ZakaTiwana/network_request.git
 </code></pre>
 <p>Or from pub.dev use</p>
-<pre class="language-yaml"><code class="language-yaml">network_request: 0.0.4+1
+<pre class="language-yaml"><code class="language-yaml">network_request: 0.1.0
 </code></pre>
 <h2 id="-usage">💡 Usage</h2>
 <p>The <code>network_request</code> package simplifies the process of making HTTP requests. Extend the <code>NetworkRequest</code> class and implement the required overrides to define your API manager.</p>
@@ -95,11 +95,12 @@ class MockAPIManger extends NetworkRequest {
   Future&lt;Map&lt;String, String&gt;&gt; get authorizationHeader async =&gt; {};
 
   // Optional: Implement custom error decoding
-  // this is triggered in the case if status code is not in 200-299
+  // this is triggered in the case if status code is not in `successfulResponsesStatusCode`
+  // which defaults to 200-299
   @override
-  Exception? errorDecoder(dynamic data) {
+  Exception? errorDecoder(CapturedResponse response) {
     try {
-      return MockAPIError.fromJson(jsonDecode(data));
+      return MockAPIError.fromJson(jsonDecode(response.body));
     } catch (_) {
       return null;
     }
@@ -113,9 +114,39 @@ class MockAPIManger extends NetworkRequest {
   }
 
   // Optional: Implement refresh token logic
+  // if you don't want to implement just send `false`
   @override
   Future&lt;bool&gt; tryToReauthenticate() async {
-    return false;
+    final presistClient = client as http.Client;
+
+    AuthTokenData authService = .. // for getting the refreshToken
+    final refreshToken = authService.refreshToken;
+
+    final result = await call&lt;AuthTokenData&gt;(
+      Request(
+        method: Method.POST,
+        path: '/auth/token/refresh',
+        version: 1,
+        body: {
+          'refreshToken': refreshToken,
+        },
+        decode: (json) =&gt; AuthTokenData.fromJson(json),
+
+        /// Important Remeber to set it to `true`
+        isRefreshRequest: true,
+      ),
+
+      // If we send the presistClient the same client will be used without
+      // closing to trigger the previous API call that had failed and
+      // triggered the unautorized / refresh token flow
+      presistClient: presistClient,
+    );
+
+    // save the new token somewhere for future API calls.
+    result.token...
+    result.refreshToken...
+    
+    return true;
   }
 }
 </code></pre>
@@ -230,7 +261,7 @@ class MockAPIUser {
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>

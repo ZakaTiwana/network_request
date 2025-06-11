@@ -56,10 +56,10 @@
       
   <div>
     <ol class="annotation-list">
-        <li>@<a href="https://api.dart.dev/stable/3.8.0/dart-core/override-constant.html">override</a></li>
+        <li>@<a href="https://api.dart.dev/stable/3.8.1/dart-core/override-constant.html">override</a></li>
     </ol>
   </div>
-<span class="returntype"><a href="https://api.dart.dev/stable/3.8.0/dart-core/Uri-class.html">Uri</a></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/Uri-class.html">Uri</a></span>
 <span class="name ">url</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="url-param-request"><span class="type-annotation"><a href="../../network_request/Request-class.html">Request</a></span> <span class="parameter-name">request</span></span></li>
 </ol>)
 
@@ -68,8 +68,10 @@
     </section>
     
 <section class="desc markdown">
-  <p>Default to a <code>http</code> URL</p>
-<p>Override to generate <code>https</code> URL</p>
+  <p>Constructs the API endpoint by combining <code>baseUrl</code>, <code>request.path</code>,
+<code>request.version</code> &amp; <code>request.query</code>
+If <a href="../../network_request/NetworkRequest/isRequestHttps.html">isRequestHttps</a> is <code>true</code> generates a <code>https</code> URL. Otherwise generates a <code>http</code> URL</p>
+<p>Can override to add custom logic.</p>
 </section>
 
 
@@ -78,9 +80,11 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 
-&#47;&#47;&#47; Default to a `http` URL
+&#47;&#47;&#47; Constructs the API endpoint by combining [baseUrl], [request.path],
+&#47;&#47;&#47; [request.version] &amp; [request.query]
+&#47;&#47;&#47; If [isRequestHttps] is `true` generates a `https` URL. Otherwise generates a `http` URL
 &#47;&#47;&#47;
-&#47;&#47;&#47; Override to generate `https` URL
+&#47;&#47;&#47; Can override to add custom logic.
 Uri url(Request request) {
   var path = request.path;
   if (!path.startsWith(&#39;&#47;&#39;)) path = &#39;&#47;$path&#39;;
@@ -128,7 +132,7 @@ Uri url(Request request) {
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>

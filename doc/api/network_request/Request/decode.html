@@ -64,13 +64,19 @@
 <section class="desc markdown">
   <p>Should decode <code>dynamic</code> data
 to <code>R</code></p>
+<p>data is a json object decoded by <a href="https://api.dart.dev/stable/3.8.1/dart-convert/jsonDecode.html">converter.jsonDecode</a>
+if it fails data is returns as <code>string</code></p>
 <p>For example</p>
-<pre class="language-dart"><code>  /// [Model.fromJson] is a factory method that return `Model`
-  /// from a `Map&lt;String, dynamic&gt;` object.
+<pre class="language-dart"><code>  // [Model.fromJson] is a factory method that return `Model`
+  // from a `Map&lt;String, dynamic&gt;` or `List` object.
+  // see [converter.jsonDecode] for more details
   decode: (json) =&gt; Model.fromJson(json)
 
-  /// For `void` (empty) reponse use
+  // For `void` (empty) reponse use
   decode: (_) {}
+
+  // For `string` just return the parameter
+  decode: (json) =&gt;  json
 </code></pre>
 </section>
 
@@ -106,7 +112,7 @@ to <code>R</code></p>
 <footer>
   <span class="no-break">
     network_request
-      0.0.4+1
+      0.1.0
   </span>
   
 </footer>
