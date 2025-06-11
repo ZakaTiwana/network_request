@@ -10,6 +10,7 @@ import 'json_placeholder/requests/post.dart';
 import 'json_placeholder/requests/todo.dart';
 import 'mock_api/mock_api_manager.dart';
 import 'mock_api/models/mock_user.dart';
+import 'mock_api/request/mock_auth.dart';
 import 'mock_api/request/mock_user.dart';
 
 void main() {
@@ -40,6 +41,12 @@ void exampleMockAPI() {
   network.fetchUser(1);
   network.addUser(MockAPIUser(id: 1001, name: 'Mock', profilePic: null));
   network.getError(1);
+}
+
+void exampleMockRefrshFlow() async {
+  var network = MockAPIManger();
+  // This will trigger tryToReauthenticate
+  await network.unAuthUser();
 }
 
 // JsonPlaceholderManager
