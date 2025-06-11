@@ -32,10 +32,27 @@
 ### New Features
 - Successful responses status codes made customizable. Defaults to 200-299. 
 - More information given to decodeError.
+- Examples improved
 
 ### Breaking Change
-- Typo fixed: `unautherizedStatusCode` has been updated to `unauthorizedStatusCode`. You will need to rename it if you have overridden it in your extended `NetworkRequest`; otherwise, you can ignore this.
+- Typo correction: The property `unautherizedStatusCode` has been renamed to `unauthorizedStatusCode`.  
+    - **Action required:** If you have overridden this property in your custom `NetworkRequest` subclasses, update your code to use the new name. If not, no changes are needed.
 
 - `headers` field in `NetworkRequest` made private to avoid any unintended behaviour. It is no longer accessible for subclasses.
 
-- `decodeError` parameters have chaged to send Reponse instead of dynamic.
+- `decodeError` parameters have changed to send CapturedResponse instead of dynamic.
+    - **How to resolve:**  
+        Previously, you may have implemented.  
+         ```dart
+        Exception? errorDecoder(dynamic data) {
+            // ...your logic here
+        }
+        ```
+        Now, update your method to:  
+        ```dart
+        Exception? errorDecoder(CapturedResponse response) {
+            var data = response.body;
+            // ...your logic here
+        }
+        ```
+        This change gives you access to the full response object, so use `response.body` to access the data as before.
