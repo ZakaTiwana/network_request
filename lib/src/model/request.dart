@@ -51,15 +51,22 @@ class Request<R> {
   /// Should decode `dynamic` data
   /// to [R]
   ///
+  /// data is a json object decoded by [converter.jsonDecode]
+  /// if it fails data is returns as `string`
+  ///
   /// For example
   ///
   /// ```
-  ///   /// [Model.fromJson] is a factory method that return `Model`
-  ///   /// from a `Map<String, dynamic>` object.
+  ///   // [Model.fromJson] is a factory method that return `Model`
+  ///   // from a `Map<String, dynamic>` or `List` object.
+  ///   // see [converter.jsonDecode] for more details
   ///   decode: (json) => Model.fromJson(json)
   ///
-  ///   /// For `void` (empty) reponse use
+  ///   // For `void` (empty) reponse use
   ///   decode: (_) {}
+  ///
+  ///   // For `string` just return the parameter
+  ///   decode: (json) =>  json
   /// ```
   final Decode<R> decode;
 

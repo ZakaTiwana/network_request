@@ -82,9 +82,39 @@ class MockAPIManger extends NetworkRequest {
   }
 
   // Optional: Implement refresh token logic
+  // if you don't want to implement just send `false`
   @override
   Future<bool> tryToReauthenticate() async {
-    return false;
+    final presistClient = client as http.Client;
+
+    AuthTokenData authService = .. // for getting the refreshToken
+    final refreshToken = authService.refreshToken;
+
+    final result = await call<AuthTokenData>(
+      Request(
+        method: Method.POST,
+        path: '/auth/token/refresh',
+        version: 1,
+        body: {
+          'refreshToken': refreshToken,
+        },
+        decode: (json) => AuthTokenData.fromJson(json),
+
+        /// Important Remeber to set it to `true`
+        isRefreshRequest: true,
+      ),
+
+      // If we send the presistClient the same client will be used without
+      // closing to trigger the previous API call that had failed and
+      // triggered the unautorized / refresh token flow
+      presistClient: presistClient,
+    );
+
+    // save the new token somewhere for future API calls.
+    result.token...
+    result.refreshToken...
+    
+    return true;
   }
 }
 ```
