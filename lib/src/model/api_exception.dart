@@ -1,5 +1,6 @@
 /// Exception thrown when response from
-/// API is not with in `200 to 299`
+/// API is not with in `successfulResponsesStatusCode`
+/// which default to 200-299
 class APIException implements Exception {
   final int statusCode;
   final String responseBody;

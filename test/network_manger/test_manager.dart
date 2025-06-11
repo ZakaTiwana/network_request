@@ -1,4 +1,5 @@
 import 'package:network_request/network_request.dart';
+import 'package:network_request/src/model/captured_response.dart';
 
 export 'requests/comment.dart';
 export 'requests/post.dart';
@@ -29,7 +30,7 @@ class TestNetworkManager extends NetworkRequest {
   }
 
   @override
-  Exception? errorDecoder(dynamic data) {
+  Exception? errorDecoder(CapturedResponse response) {
     return null;
   }
 }

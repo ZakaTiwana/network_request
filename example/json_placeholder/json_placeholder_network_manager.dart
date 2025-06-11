@@ -1,4 +1,5 @@
 import 'package:network_request/network_request.dart';
+import 'package:network_request/src/model/captured_response.dart';
 
 class JsonPlaceholderManager extends NetworkRequest {
   @override
@@ -25,7 +26,7 @@ class JsonPlaceholderManager extends NetworkRequest {
   }
 
   @override
-  Exception? errorDecoder(dynamic data) {
+  Exception? errorDecoder(CapturedResponse response) {
     return null;
   }
 }
