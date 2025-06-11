@@ -63,11 +63,12 @@ class MockAPIManger extends NetworkRequest {
   Future<Map<String, String>> get authorizationHeader async => {};
 
   // Optional: Implement custom error decoding
-  // this is triggered in the case if status code is not in 200-299
+  // this is triggered in the case if status code is not in `successfulResponsesStatusCode`
+  // which defaults to 200-299
   @override
-  Exception? errorDecoder(dynamic data) {
+  Exception? errorDecoder(CapturedResponse response) {
     try {
-      return MockAPIError.fromJson(jsonDecode(data));
+      return MockAPIError.fromJson(jsonDecode(response.body));
     } catch (_) {
       return null;
     }

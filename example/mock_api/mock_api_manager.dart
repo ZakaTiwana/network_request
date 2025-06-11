@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:network_request/network_request.dart';
+import 'package:network_request/src/model/captured_response.dart';
 
 import 'models/mock_api_error.dart';
 
@@ -18,9 +19,9 @@ class MockAPIManger extends NetworkRequest {
       };
 
   @override
-  Exception? errorDecoder(dynamic data) {
+  Exception? errorDecoder(CapturedResponse response) {
     try {
-      return MockAPIError.fromJson(jsonDecode(data));
+      return MockAPIError.fromJson(jsonDecode(response.body));
     } catch (_) {
       return null;
     }

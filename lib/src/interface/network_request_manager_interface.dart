@@ -1,3 +1,4 @@
+import '../model/captured_response.dart';
 import '../model/request.dart';
 
 abstract class NetworkRequestInterface {
@@ -42,18 +43,20 @@ abstract class NetworkRequestInterface {
   String encodeBody(dynamic requestBody);
 
   /// Should decode the response from a Request
-  /// to somthing that [Request.decode] can handel
+  /// to somthing that [Request.decode] can handle
   dynamic decodeBody(String responseBody);
 
   /// Should implement a decoder.
-  /// To decode the Error object in
-  /// response from the network call.
+  /// that decodes the into a [Exception] object
+  /// from the response as [CapturedResponse] from the network call.
+  /// Useful to implement your custom error logic here rather than
+  /// use `try-catch and rethrow` on [APIException]
   ///
   /// If decoding fails then should return `null`.
   /// It should not throw an Exception
-  Exception? errorDecoder(dynamic data);
+  Exception? errorDecoder(CapturedResponse response);
 
-  /// Should handel all the call
+  /// Should handle all the call
   /// to API for all Requests
   Future<R> call<R>(Request<R> request);
 
