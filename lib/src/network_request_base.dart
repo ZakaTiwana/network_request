@@ -3,6 +3,7 @@ import 'dart:convert' as converter;
 import 'dart:io';
 
 import 'package:http/retry.dart';
+import 'package:network_request/src/model/captured_response.dart';
 import 'package:network_request/src/multipart_request_with_progress.dart';
 import 'package:collection/collection.dart' show CanonicalizedMap;
 
@@ -217,7 +218,8 @@ abstract class NetworkRequest implements NetworkRequestInterface {
             }
           } catch (_) {}
         }
-        final error = errorDecoder(response.body);
+        final capturedResponse = CapturedResponse.fromHttpResponse(response);
+        final error = errorDecoder(capturedResponse);
         if (error != null) throw error;
         throw APIException(response.statusCode, response.body);
       }
@@ -243,9 +245,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   @override
 
-  /// Default to a `http` URL
+  /// Constructs the API endpoint by combining [baseUrl], [request.path],
+  /// [request.version] & [request.query]
+  /// If [isRequestHttps] is `true` generates a `https` URL. Otherwise generates a `http` URL
   ///
-  /// Override to generate `https` URL
+  /// Can override to add custom logic.
   Uri url(Request request) {
     var path = request.path;
     if (!path.startsWith('/')) path = '/$path';
@@ -267,7 +271,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     }
   }
 
-  /// Genrate a string that can be logged
+  /// Generates a string that can be logged
   String _logString(http.BaseRequest request, http.BaseResponse response,
       Map<String, dynamic>? requestBody, dynamic responseBody) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
@@ -281,7 +285,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     return sb.toString();
   }
 
-  /// Generate Erroo log string
+  /// Generates Error log string
   String _logErrorString(http.BaseRequest request, int? statusCode,
       Map<String, dynamic>? requestBody, Object error) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
