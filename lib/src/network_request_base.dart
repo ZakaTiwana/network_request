@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'dart:convert' as converter;
-import 'dart:io';
-
 import 'package:http/retry.dart';
 import 'package:network_request/src/model/captured_response.dart';
 import 'package:network_request/src/multipart_request_with_progress.dart';
 import 'package:collection/collection.dart' show CanonicalizedMap;
+import 'package:http/http.dart' as http;
 
 import 'model/request.dart';
 import 'interface/network_request_manager_interface.dart';
-import 'package:http/http.dart' as http;
-
 import 'model/api_exception.dart';
 import 'request_with_progress.dart';
+import 'model/http_status.dart';
+import 'model/http_headers.dart';
 
 /// Extend this manager and add the required override. Then add methods
 /// to hit API endpoints through [call] method.
@@ -61,7 +60,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// [tryToReauthenticate].
   ///
   /// Override to add other status codes.
-  List<int> get unauthorizedStatusCode => [HttpStatus.unauthorized];
+  List<int> get unauthorizedStatusCode => [HttpStatus.unauthorized.code];
 
   /// By default its [200...299]
   ///
@@ -107,13 +106,13 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     _headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
     canonicalizedMap.clear();
 
-    bool isMultiPart = _headers[HttpHeaders.contentTypeHeader]
+    bool isMultiPart = _headers[HttpHeaders.contentTypeHeader.key]
             ?.toLowerCase()
             .contains('multipart/form-data') ==
         true;
     if (!isMultiPart && request.files?.isNotEmpty == true) {
       throw StateError(
-        'if `request.files` is not empty then need to set content-type header to "${HttpHeaders.contentTypeHeader}: multipart/form-data"',
+        'if `request.files` is not empty then need to set content-type header to "${HttpHeaders.contentTypeHeader.key}: multipart/form-data"',
       );
     }
     final http.BaseRequest httpRequest;
@@ -310,7 +309,8 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         result += "--header '$key: $value' \\\n";
       });
     }
-    final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+    final contentType =
+        _headers[HttpHeaders.contentTypeHeader.key]?.toLowerCase();
     if (contentType == null) {
       // remove extra '/' & '/n' from last header
       result = result.substring(0, result.length - 2);
@@ -416,10 +416,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Override to add custom encoding
   String encodeBody(dynamic requestBody,
       {converter.Encoding encoding = converter.utf8}) {
-    final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+    final contentType =
+        _headers[HttpHeaders.contentTypeHeader.key]?.toLowerCase();
     if (contentType == null) {
       throw StateError(
-          "Header, ${HttpHeaders.contentTypeHeader} cannot be null");
+          "Header, ${HttpHeaders.contentTypeHeader.key} cannot be null");
     }
     final isFormUrlEncoded =
         contentType.contains('application/x-www-form-urlencoded');

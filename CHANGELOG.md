@@ -1,5 +1,5 @@
 ## 0.1.1
-- Made wasam compatible
+- Made wasm compatible
 
 ## 0.1.0
 
