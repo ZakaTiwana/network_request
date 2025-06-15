@@ -115,13 +115,13 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
   _headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
   canonicalizedMap.clear();
 
-  bool isMultiPart = _headers[HttpHeaders.contentTypeHeader]
+  bool isMultiPart = _headers[HttpHeaders.contentTypeHeader.key]
           ?.toLowerCase()
           .contains(&#39;multipart&#47;form-data&#39;) ==
       true;
   if (!isMultiPart &amp;&amp; request.files?.isNotEmpty == true) {
     throw StateError(
-      &#39;if `request.files` is not empty then need to set content-type header to &quot;${HttpHeaders.contentTypeHeader}: multipart&#47;form-data&quot;&#39;,
+      &#39;if `request.files` is not empty then need to set content-type header to &quot;${HttpHeaders.contentTypeHeader.key}: multipart&#47;form-data&quot;&#39;,
     );
   }
   final http.BaseRequest httpRequest;
@@ -277,7 +277,7 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
 <footer>
   <span class="no-break">
     network_request
-      0.1.0
+      0.1.1
   </span>
   
 </footer>
