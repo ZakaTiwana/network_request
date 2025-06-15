@@ -35,7 +35,7 @@ network_request:
 ```
 Or from pub.dev use
 ```yaml
-network_request: 0.1.0
+network_request: 0.1.1
 ```
 
 ## 💡 Usage

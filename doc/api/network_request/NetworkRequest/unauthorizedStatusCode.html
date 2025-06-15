@@ -72,7 +72,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>By default only <a href="https://api.dart.dev/stable/3.8.1/dart-html/HttpStatus/unauthorized-constant.html">HttpStatus.unauthorized</a> trigger's
+  <p>By default only <code>HttpStatus.unauthorized</code> trigger's
 <code>tryToReauthenticate</code>.</p>
 <p>Override to add other status codes.</p>
 </section>
@@ -86,7 +86,7 @@
 &#47;&#47;&#47; [tryToReauthenticate].
 &#47;&#47;&#47;
 &#47;&#47;&#47; Override to add other status codes.
-List&lt;int&gt; get unauthorizedStatusCode =&gt; [HttpStatus.unauthorized];</code></pre>
+List&lt;int&gt; get unauthorizedStatusCode =&gt; [HttpStatus.unauthorized.code];</code></pre>
 </section>
 
   </section>
@@ -116,7 +116,7 @@ List&lt;int&gt; get unauthorizedStatusCode =&gt; [HttpStatus.unauthorized];</cod
 <footer>
   <span class="no-break">
     network_request
-      0.1.0
+      0.1.1
   </span>
   
 </footer>

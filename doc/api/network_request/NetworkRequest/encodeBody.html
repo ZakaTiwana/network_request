@@ -89,10 +89,11 @@ Able to handle <code>x-www-form-urlencoded</code>, <code>multipart/form-data</co
 &#47;&#47;&#47; Override to add custom encoding
 String encodeBody(dynamic requestBody,
     {converter.Encoding encoding = converter.utf8}) {
-  final contentType = _headers[HttpHeaders.contentTypeHeader]?.toLowerCase();
+  final contentType =
+      _headers[HttpHeaders.contentTypeHeader.key]?.toLowerCase();
   if (contentType == null) {
     throw StateError(
-        &quot;Header, ${HttpHeaders.contentTypeHeader} cannot be null&quot;);
+        &quot;Header, ${HttpHeaders.contentTypeHeader.key} cannot be null&quot;);
   }
   final isFormUrlEncoded =
       contentType.contains(&#39;application&#47;x-www-form-urlencoded&#39;);
@@ -152,7 +153,7 @@ String encodeBody(dynamic requestBody,
 <footer>
   <span class="no-break">
     network_request
-      0.1.0
+      0.1.1
   </span>
   
 </footer>
