@@ -247,6 +247,42 @@ Future<void> exampleAbort(NetworkRequest network) async {
   }
 }
 ```
+
+### 🔎 All Functionalities at a glance
+
+#### Request configuration (passed to `call`)
+- `Request.method`: HTTP method (`Method` enum).
+- `Request.path`: Endpoint path (with/without leading `/`).
+- `Request.version`: Optional API version, prepended as `/v{n}`.
+- `Request.query`: Query parameters `Map<String, String>`.
+- `Request.headers`: Request-specific headers (override defaults).
+- `Request.body`: JSON map, URL-encoded map, or plain string (based on `Content-Type`).
+- `Request.files`: `List<http.MultipartFile>` for multipart/form-data uploads.
+- `Request.encoding`: Request body encoding (default `utf8`).
+- `Request.isRefreshRequest`: Mark as refresh-token call to avoid loops and custom errors.
+- `Request.downloadProgress`: Callback `(bytes, totalBytes, percent)` for download progress.
+- `Request.uploadProgress`: Callback `(bytes, totalBytes, percent)` for upload progress.
+- `Request.abortTrigger`: Complete this `Future<void>` to cancel the in-flight request (requires `http >= 1.5.0`).
+
+#### NetworkRequest class functionalities
+
+- `baseUrl`: Domain for all requests (exclude scheme), e.g., `api.example.com`.
+- `isRequestHttps`: Toggle between https (true) and http (false) URL building.
+- `initalizeClient()`: Override to provide a custom `http.Client` (default: `RetryClient(http.Client())`).
+- `defaultHeader`: Async default headers applied to every request.
+- `authorizationHeader`: Async authorization headers applied to every request.
+- `call<R>(Request<R> request, {http.Client? presistClient})`: Executes a request with logging, progress, multipart, abort, error decoding, and optional persistent client.
+- `successfulResponsesStatusCode`: List of status codes considered success (default `200..299`).
+- `unauthorizedStatusCode`: Status codes that trigger `tryToReauthenticate` (default `[401]`).
+- `tryToReauthenticate({client})`: Implement refresh-token logic; return `true` to retry the original request.
+- `errorDecoder(CapturedResponse)`: Return a custom `Exception` from an error response or `null` to fall back to `APIException`.
+- `url(Request)`: Builds the final `Uri` from `baseUrl`, path, optional version `/v{n}`, and `query` map.
+- `encodeBody(dynamic, {Encoding encoding = utf8})`: Encodes request body based on `Content-Type` (JSON, text/plain, x-www-form-urlencoded).
+- `decodeBody(String)`: Decodes JSON, returns raw string if not JSON.
+- `enableLog` / `enableCurlLog` / `trimJsonLogs`: Toggle request/response logging, cURL logging, and compact JSON logs.
+- `log(String)`: Output logs (override to route to your logger).
+- `logFormattedJson(dynamic)`: Pretty-prints JSON for logs (with trimming if long).
+
 ## 📚 Additional Information
 
 Feel free to leave any suggestions :) 
