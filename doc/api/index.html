@@ -63,17 +63,18 @@ and the Flutter guide for
 <li>🐚 Get <code>cURL commands</code> for every network request for easy debugging and reproduction outside your application.</li>
 <li>📦 Out-of-the-box support for common HTTP content types like <code>application/json</code>, <code>text/plain</code>, <code>x-www-form-urlencoded</code>, and <code>multipart/form-data</code>.</li>
 <li>📶 Get download and upload progress in simple callbacks.</li>
+<li>🛑 Cancel/abort in-flight requests using <code>abortTrigger</code> (requires <code>http &gt;= 1.5.0</code>).</li>
 </ul>
 <h2 id="-logging-feature">📝 Logging Feature</h2>
 <p>Best suited for JSON APIs. Get detailed logs for both requests and responses with a <code>terminal-pastable cURL command</code> for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.</p>
 <p><img src="https://raw.githubusercontent.com/ZakaTiwana/network_request/main/assets/log%20print%20example.png" alt="Network Request Log Example"></p>
 <h2 id="-getting-started">🚀 Getting started</h2>
 <p>In your Dart/Flutter project add the following line to <code>pubspec.yaml</code> file</p>
+<pre class="language-yaml"><code class="language-yaml">network_request: 0.2.0
+</code></pre>
+<p>Or get the latest from github</p>
 <pre class="language-yaml"><code class="language-yaml">network_request:
     git: https://github.com/ZakaTiwana/network_request.git
-</code></pre>
-<p>Or from pub.dev use</p>
-<pre class="language-yaml"><code class="language-yaml">network_request: 0.1.1
 </code></pre>
 <h2 id="-usage">💡 Usage</h2>
 <p>The <code>network_request</code> package simplifies the process of making HTTP requests. Extend the <code>NetworkRequest</code> class and implement the required overrides to define your API manager.</p>
@@ -219,6 +220,83 @@ class MockAPIUser {
 </code></pre>
 <p>Find more detailed examples in the <code>example</code> folder.</p>
 <p><strong>Note:</strong> A mock server API with Dart was also created to test <code>network_request</code> functionality. You can find its <a href="https://github.com/ZakaTiwana/network_request_mock_api">source code here</a></p>
+<h3 id="-aborting-requests-http-150">⛔ Aborting requests (http 1.5.0)</h3>
+<p>The <code>http</code> package added native abort support in 1.5.0 via the <code>Abortable</code> API. This library exposes it through <code>Request.abortTrigger</code> so you can cancel any in-flight request.</p>
+<ul>
+<li>
+<p><strong>How it works</strong>:</p>
+<ul>
+<li>Pass a <code>Future&lt;void&gt;</code> to <code>abortTrigger</code> when calling <code>NetworkRequest.call</code>.</li>
+<li>Complete that future to abort the request.</li>
+<li>Supported clients (e.g., <code>IOClient</code>, <code>BrowserClient</code>, <code>RetryClient</code>) observe the trigger and cancel sending/streaming.</li>
+<li>The await will throw <code>http.RequestAbortedException</code> when abortion occurs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Docs</strong>: See the official <code>http</code> docs: <a href="https://pub.dev/packages/http#aborting-requests">Aborting requests</a>.</p>
+</li>
+</ul>
+<h4 id="basic-abort-example">Basic abort example</h4>
+<pre class="language-dart"><code class="language-dart">import 'dart:async';
+import 'package:network_request/network_request.dart';
+import 'package:http/http.dart' as http;
+
+Future&lt;void&gt; exampleAbort(NetworkRequest network) async {
+  final abort = Completer&lt;void&gt;();
+
+  // Abort shortly after starting (demo)
+  Future&lt;void&gt;.delayed(const Duration(milliseconds: 100))
+      .then((_) =&gt; abort.complete());
+
+  try {
+    await network.call(
+      Request&lt;void&gt;(
+        method: Method.GET,
+        path: '/posts',
+        decode: (_) {},
+        abortTrigger: abort.future,
+      ),
+    );
+  } on http.RequestAbortedException {
+    // Handle cancellation gracefully
+  }
+}
+</code></pre>
+<h3 id="-all-functionalities-at-a-glance">🔎 All Functionalities at a glance</h3>
+<h4 id="request-configuration-passed-to-call">Request configuration (passed to <code>call</code>)</h4>
+<ul>
+<li><code>Request.method</code>: HTTP method (<code>Method</code> enum).</li>
+<li><code>Request.path</code>: Endpoint path (with/without leading <code>/</code>).</li>
+<li><code>Request.version</code>: Optional API version, prepended as <code>/v{n}</code>.</li>
+<li><code>Request.query</code>: Query parameters <code>Map&lt;String, String&gt;</code>.</li>
+<li><code>Request.headers</code>: Request-specific headers (override defaults).</li>
+<li><code>Request.body</code>: JSON map, URL-encoded map, or plain string (based on <code>Content-Type</code>).</li>
+<li><code>Request.files</code>: <code>List&lt;http.MultipartFile&gt;</code> for multipart/form-data uploads.</li>
+<li><code>Request.encoding</code>: Request body encoding (default <code>utf8</code>).</li>
+<li><code>Request.isRefreshRequest</code>: Mark as refresh-token call to avoid loops and custom errors.</li>
+<li><code>Request.downloadProgress</code>: Callback <code>(bytes, totalBytes, percent)</code> for download progress.</li>
+<li><code>Request.uploadProgress</code>: Callback <code>(bytes, totalBytes, percent)</code> for upload progress.</li>
+<li><code>Request.abortTrigger</code>: Complete this <code>Future&lt;void&gt;</code> to cancel the in-flight request (requires <code>http &gt;= 1.5.0</code>).</li>
+</ul>
+<h4 id="networkrequest-class-functionalities">NetworkRequest class functionalities</h4>
+<ul>
+<li><code>baseUrl</code>: Domain for all requests (exclude scheme), e.g., <code>api.example.com</code>.</li>
+<li><code>isRequestHttps</code>: Toggle between https (true) and http (false) URL building.</li>
+<li><code>initalizeClient()</code>: Override to provide a custom <code>http.Client</code> (default: <code>RetryClient(http.Client())</code>).</li>
+<li><code>defaultHeader</code>: Async default headers applied to every request.</li>
+<li><code>authorizationHeader</code>: Async authorization headers applied to every request.</li>
+<li><code>call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistClient})</code>: Executes a request with logging, progress, multipart, abort, error decoding, and optional persistent client.</li>
+<li><code>successfulResponsesStatusCode</code>: List of status codes considered success (default <code>200..299</code>).</li>
+<li><code>unauthorizedStatusCode</code>: Status codes that trigger <code>tryToReauthenticate</code> (default <code>[401]</code>).</li>
+<li><code>tryToReauthenticate({client})</code>: Implement refresh-token logic; return <code>true</code> to retry the original request.</li>
+<li><code>errorDecoder(CapturedResponse)</code>: Return a custom <code>Exception</code> from an error response or <code>null</code> to fall back to <code>APIException</code>.</li>
+<li><code>url(Request)</code>: Builds the final <code>Uri</code> from <code>baseUrl</code>, path, optional version <code>/v{n}</code>, and <code>query</code> map.</li>
+<li><code>encodeBody(dynamic, {Encoding encoding = utf8})</code>: Encodes request body based on <code>Content-Type</code> (JSON, text/plain, x-www-form-urlencoded).</li>
+<li><code>decodeBody(String)</code>: Decodes JSON, returns raw string if not JSON.</li>
+<li><code>enableLog</code> / <code>enableCurlLog</code> / <code>trimJsonLogs</code>: Toggle request/response logging, cURL logging, and compact JSON logs.</li>
+<li><code>log(String)</code>: Output logs (override to route to your logger).</li>
+<li><code>logFormattedJson(dynamic)</code>: Pretty-prints JSON for logs (with trimming if long).</li>
+</ul>
 <h2 id="-additional-information">📚 Additional Information</h2>
 <p>Feel free to leave any suggestions :)</p>
 </section>
@@ -261,7 +339,7 @@ class MockAPIUser {
 <footer>
   <span class="no-break">
     network_request
-      0.1.1
+      0.2.0
   </span>
   
 </footer>

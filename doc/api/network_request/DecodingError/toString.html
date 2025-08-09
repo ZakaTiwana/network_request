@@ -26,7 +26,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request.dart</a></li>
-    <li><a href="../../network_request/DecodingError-class.html">DecodingError</a></li>
+    <li><a href="../../network_request/DecodingError-class.html">DecodingError<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
     <li class="self-crumb">toString method</li>
   </ol>
   <div class="self-name">toString</div>
@@ -85,7 +85,11 @@ mainly for debugging or logging.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 String toString() {
-  return message;
+  return &#39;&#39;&#39;Decoding Error, while using `decode` of ${Request&lt;R&gt;} got error: $error
+Click on the top most StackTrace to see what is causing the decoding to fail
+StackTrace:
+$stackTrace
+&#39;&#39;&#39;;
 }</code></pre>
 </section>
 
@@ -101,7 +105,7 @@ String toString() {
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request</a></li>
-    <li><a href="../../network_request/DecodingError-class.html">DecodingError</a></li>
+    <li><a href="../../network_request/DecodingError-class.html">DecodingError<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
     <li class="self-crumb">toString method</li>
 </ol>
 
@@ -114,7 +118,7 @@ String toString() {
 <footer>
   <span class="no-break">
     network_request
-      0.1.1
+      0.2.0
   </span>
   
 </footer>

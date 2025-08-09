@@ -26,7 +26,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request.dart</a></li>
-    <li><a href="../../network_request/DecodingError-class.html">DecodingError</a></li>
+    <li><a href="../../network_request/DecodingError-class.html">DecodingError<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
     <li class="self-crumb">DecodingError.new const constructor</li>
   </ol>
   <div class="self-name">DecodingError.new</div>
@@ -49,12 +49,14 @@
       data-above-sidebar="network_request&#47;DecodingError-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-constructor">DecodingError</span> constructor 
+<h1><span class="kind-constructor">DecodingError&lt;<wbr><span class="type-parameter">R</span>&gt;</span> constructor 
 </h1></div>
 
     <section class="multi-line-signature">
       const
-      <span class="name ">DecodingError</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="-param-message"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.1/dart-core/String-class.html">String</a></span> <span class="parameter-name">message</span></span></li>
+      <span class="name ">DecodingError&lt;<wbr><span class="type-parameter">R</span>&gt;</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="-param-request"><span class="type-annotation"><a href="../../network_request/Request-class.html">Request</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">request</span>, </span></li>
+<li><span class="parameter" id="-param-stackTrace"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.1/dart-core/StackTrace-class.html">StackTrace</a></span> <span class="parameter-name">stackTrace</span>, </span></li>
+<li><span class="parameter" id="-param-error"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.8.1/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">error</span></span></li>
 </ol>)
     </section>
     
@@ -63,7 +65,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const DecodingError(this.message);</code></pre>
+  <pre class="language-dart"><code class="language-dart">const DecodingError(this.request, this.stackTrace, this.error);</code></pre>
 </section>
 
 
@@ -78,7 +80,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">network_request</a></li>
     <li><a href="../../network_request/">network_request</a></li>
-    <li><a href="../../network_request/DecodingError-class.html">DecodingError</a></li>
+    <li><a href="../../network_request/DecodingError-class.html">DecodingError<span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></a></li>
     <li class="self-crumb">DecodingError.new const constructor</li>
 </ol>
 
@@ -91,7 +93,7 @@
 <footer>
   <span class="no-break">
     network_request
-      0.1.1
+      0.2.0
   </span>
   
 </footer>
