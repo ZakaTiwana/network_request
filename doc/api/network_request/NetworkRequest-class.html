@@ -226,17 +226,14 @@ want to add any default headers
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="call" class="callable">
-  <span class="name"><a href="../network_request/NetworkRequest/call.html">call</a></span><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="call-param-request"><span class="type-annotation"><a href="../network_request/Request-class.html">Request</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">request</span>, {</span><span class="parameter" id="call-param-presistClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">presistClient</span></span>})
+  <span class="name"><a href="../network_request/NetworkRequest/call.html">call</a></span><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="call-param-request"><span class="type-annotation"><a href="../network_request/Request-class.html">Request</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">request</span>, {</span><span class="parameter" id="call-param-presistClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">presistClient</span></span>})
     <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.8.1/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Uses <code>request</code> to generate a request
-of a network call. If <code>presistClient</code> is not provided
-then genreates a <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a> by <a href="../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a>
-and when the API call is completed it closes the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a>.
+  Uses <code>request</code> to generate a request of a endpoint.
   
 
 </dd>
@@ -289,7 +286,7 @@ use <code>try-catch and rethrow</code> on <a href="../network_request/APIExcepti
 
         <dt id="initalizeClient" class="callable">
   <span class="name"><a href="../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">Client</a></span>
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">Client</a></span>
   </span>
   
 
@@ -434,7 +431,7 @@ If <a href="../network_request/NetworkRequest/isRequestHttps.html">isRequestHttp
 <footer>
   <span class="no-break">
     network_request
-      0.1.1
+      0.2.0
   </span>
   
 </footer>

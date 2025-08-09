@@ -61,7 +61,7 @@
   </div>
 <span class="returntype"><a href="https://api.dart.dev/stable/3.8.1/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span>
 <span class="name ">call</span>&lt;<wbr><span class="type-parameter">R</span>&gt;(<wbr><ol class="parameter-list"> <li><span class="parameter" id="call-param-request"><span class="type-annotation"><a href="../../network_request/Request-class.html">Request</a><span class="signature">&lt;<wbr><span class="type-parameter">R</span>&gt;</span></span> <span class="parameter-name">request</span>, {</span></li>
-<li><span class="parameter" id="call-param-presistClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">presistClient</span>, </span></li>
+<li><span class="parameter" id="call-param-presistClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">presistClient</span>, </span></li>
 </ol>})
 
       
@@ -69,17 +69,20 @@
     </section>
     
 <section class="desc markdown">
-  <p>Uses <code>request</code> to generate a request
-of a network call. If <code>presistClient</code> is not provided
-then genreates a <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a> by <a href="../../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a>
-and when the API call is completed it closes the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a>.</p>
+  <p>Uses <code>request</code> to generate a request of a endpoint.</p>
+<p>If <code>request.abortTrigger</code> is provided then it will abort the request
+when the abortTrigger future is completed.</p>
+<p>(Only supported http client can abort such as <code>IOClient</code>, <code>BrowserClient</code>, <code>RetryClient</code>. Read more about aborting requests <a href="https://pub.dev/packages/http#aborting-requests">https://pub.dev/packages/http#aborting-requests</a>)</p>
+<p>If <code>presistClient</code> is not provided
+then genreates a <a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">http.Client</a> by <a href="../../network_request/NetworkRequest/initalizeClient.html">initalizeClient</a>
+and when the API call is completed it closes the <a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">http.Client</a>.</p>
 <p>if <code>presistClient</code> is provided then uses it to
-make the API call and does not close the <a href="https://pub.dev/documentation/http/1.4.0/http/Client-class.html">http.Client</a></p>
+make the API call and does not close the <a href="https://pub.dev/documentation/http/1.5.0/http/Client-class.html">http.Client</a></p>
 <p>Throws <a href="https://api.dart.dev/stable/3.8.1/dart-core/ArgumentError-class.html">ArgumentError</a> if <code>request.body</code> or <code>request.files</code> does not conform
-to correct type. for multipart/form-data request <code>request.files</code> should be <a href="https://api.dart.dev/stable/3.8.1/dart-core/List-class.html">List</a> of <a href="https://pub.dev/documentation/http/1.4.0/http/MultipartFile-class.html">http.MultipartFile</a></p>
+to correct type. for multipart/form-data request <code>request.files</code> should be <a href="https://api.dart.dev/stable/3.8.1/dart-core/List-class.html">List</a> of <a href="https://pub.dev/documentation/http/1.5.0/http/MultipartFile-class.html">http.MultipartFile</a></p>
 <p>Throws <a href="../../network_request/DecodingError-class.html">DecodingError</a> if <code>request.decode</code> was not able to decode data from <a href="../../network_request/NetworkRequest/decodeBody.html">decodeBody</a></p>
 <p>If response status code does not lie in <a href="../../network_request/NetworkRequest/successfulResponsesStatusCode.html">successfulResponsesStatusCode</a> (which defaults to 200...299) then first
-try to throw error decoded from <code>errorDecoder</code> And if that i not successful then
+try to throw error decoded from <code>errorDecoder</code> And if that is not successful then
 throws <a href="../../network_request/APIException-class.html">APIException</a></p>
 </section>
 
@@ -89,8 +92,15 @@ throws <a href="../../network_request/APIException-class.html">APIException</a><
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 
-&#47;&#47;&#47; Uses [request] to generate a request
-&#47;&#47;&#47; of a network call. If [presistClient] is not provided
+&#47;&#47;&#47; Uses [request] to generate a request of a endpoint.
+&#47;&#47;&#47;
+&#47;&#47;&#47; If [request.abortTrigger] is provided then it will abort the request
+&#47;&#47;&#47; when the abortTrigger future is completed.
+&#47;&#47;&#47;
+&#47;&#47;&#47; (Only supported http client can abort such as `IOClient`, `BrowserClient`, `RetryClient`. Read more about aborting requests https:&#47;&#47;pub.dev&#47;packages&#47;http#aborting-requests)
+&#47;&#47;&#47;
+&#47;&#47;&#47;
+&#47;&#47;&#47; If [presistClient] is not provided
 &#47;&#47;&#47; then genreates a [http.Client] by [initalizeClient]
 &#47;&#47;&#47; and when the API call is completed it closes the [http.Client].
 &#47;&#47;&#47;
@@ -103,7 +113,7 @@ throws <a href="../../network_request/APIException-class.html">APIException</a><
 &#47;&#47;&#47; Throws [DecodingError] if `request.decode` was not able to decode data from [decodeBody]
 &#47;&#47;&#47;
 &#47;&#47;&#47; If response status code does not lie in [successfulResponsesStatusCode] (which defaults to 200...299) then first
-&#47;&#47;&#47; try to throw error decoded from [errorDecoder] And if that i not successful then
+&#47;&#47;&#47; try to throw error decoded from [errorDecoder] And if that is not successful then
 &#47;&#47;&#47; throws [APIException]
 Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistClient}) async {
   var canonicalizedMap =
@@ -130,19 +140,27 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
       httpRequest = MultipartRequestWithProgress(
         request.method.name,
         url(request),
-        request.uploadProgress!,
+        onProgress: request.uploadProgress!,
+        abortTrigger: request.abortTrigger,
       );
     } else {
-      httpRequest = http.MultipartRequest(
-        request.method.name,
-        url(request),
-      );
+      httpRequest = request.abortTrigger != null
+          ? http.AbortableMultipartRequest(
+              request.method.name,
+              url(request),
+              abortTrigger: request.abortTrigger,
+            )
+          : http.MultipartRequest(
+              request.method.name,
+              url(request),
+            );
     }
   } else {
     httpRequest = RequestWithProgress(
       request.method.name,
       url(request),
-      request.uploadProgress,
+      onProgress: request.uploadProgress,
+      abortTrigger: request.abortTrigger,
     );
   }
 
@@ -183,10 +201,10 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
   if (enableLog &amp; enableCurlLog) {
     log(_curlString(httpRequest, request));
   }
+  http.Response? response;
   try {
     final streamedResponse = await client.send(httpRequest);
 
-    http.Response response;
     if (request.downloadProgress != null) {
       int bytesRecieved = 0;
       List&lt;int&gt; bytes = [];
@@ -233,17 +251,39 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
     }
 
     final responseBody = decodeBody(response.body);
-    if (enableLog) log(_logString(httpRequest, response, body, responseBody));
     try {
-      return request.decode(responseBody);
-    } catch (error) {
-      throw DecodingError(
-          &#39;Decoding Error, while using `decode` of ${Request&lt;R&gt;}: $error&#39;);
+      final result = request.decode(responseBody);
+      if (enableLog) {
+        log(_logString(httpRequest, response, body, responseBody));
+      }
+      return result;
+    } catch (error, stackTrace) {
+      throw DecodingError&lt;R&gt;(
+        request,
+        stackTrace,
+        error,
+      );
     }
   } catch (error) {
     if (enableLog) {
-      log(_logErrorString(httpRequest,
-          error is APIException ? error.statusCode : null, body, error));
+      dynamic responseBody;
+      final responseString = response?.body;
+      if (responseString != null) {
+        try {
+          responseBody = decodeBody(responseString);
+        } catch (e) {
+          responseBody = responseString;
+        }
+      }
+      log(
+        _logErrorString(
+          httpRequest,
+          error is APIException ? error.statusCode : null,
+          body,
+          responseBody,
+          error,
+        ),
+      );
     }
     rethrow;
   } finally {
@@ -277,7 +317,7 @@ Future&lt;R&gt; call&lt;R&gt;(Request&lt;R&gt; request, {http.Client? presistCli
 <footer>
   <span class="no-break">
     network_request
-      0.1.1
+      0.2.0
   </span>
   
 </footer>
