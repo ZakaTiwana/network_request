@@ -335,8 +335,12 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     } else {
       sb.writeln('Error: $error');
       if (responseBody != null) {
-        sb.writeln(
-            'Here is the raw response body. Check for key value mismatch');
+        sb.write('Here is the raw response body. ');
+        if (error is DecodingError) {
+          sb.writeln('Check for key value mismatch');
+        } else {
+          sb.writeln();
+        }
         sb.writeln('Body: ${logFormattedJson(responseBody)}');
       }
     }
