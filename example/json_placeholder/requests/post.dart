@@ -1,6 +1,7 @@
 import 'package:network_request/network_request.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../test/utils.dart';
 import '../json_placeholder_network_manager.dart';
 import '../model/post.dart';
 
@@ -25,6 +26,28 @@ extension ExJpPostNetworkManager on JsonPlaceholderManager {
         decode: (_) {},
       ),
       presistClient: client,
+    );
+  }
+
+  Future<List<Post>> getAllPost() {
+    return call(
+      Request<List<Post>>(
+        method: Method.GET,
+        path: '/posts',
+        decode: (json) =>
+            tryToListParseJson(json, (e) => Post.fromJson(e)) ?? [],
+      ),
+    );
+  }
+
+  Future<List<PostWithDecodeError>> getAllPostWithDecodeError() {
+    return call(
+      Request<List<PostWithDecodeError>>(
+        method: Method.GET,
+        path: '/posts',
+        decode: (json) =>
+            (json as List).map((e) => PostWithDecodeError.fromJson(e)).toList(),
+      ),
     );
   }
 }

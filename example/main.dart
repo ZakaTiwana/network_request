@@ -50,8 +50,11 @@ void exampleMockRefrshFlow() async {
 }
 
 // JsonPlaceholderManager
-void exampleJp() {
+void exampleJp() async {
   var network = JsonPlaceholderManager();
+  try {
+    await network.getAllPostWithDecodeError();
+  } catch (_) {}
   network.getTodo(1);
   network.getCommentOfPost(1);
 }

@@ -94,7 +94,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   /// Throws [DecodingError] if `request.decode` was not able to decode data from [decodeBody]
   ///
   /// If response status code does not lie in [successfulResponsesStatusCode] (which defaults to 200...299) then first
-  /// try to throw error decoded from [errorDecoder] And if that i not successful then
+  /// try to throw error decoded from [errorDecoder] And if that is not successful then
   /// throws [APIException]
   Future<R> call<R>(Request<R> request, {http.Client? presistClient}) async {
     var canonicalizedMap =
@@ -174,10 +174,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     if (enableLog & enableCurlLog) {
       log(_curlString(httpRequest, request));
     }
+    http.Response? response;
     try {
       final streamedResponse = await client.send(httpRequest);
 
-      http.Response response;
       if (request.downloadProgress != null) {
         int bytesRecieved = 0;
         List<int> bytes = [];
@@ -224,17 +224,39 @@ abstract class NetworkRequest implements NetworkRequestInterface {
       }
 
       final responseBody = decodeBody(response.body);
-      if (enableLog) log(_logString(httpRequest, response, body, responseBody));
       try {
-        return request.decode(responseBody);
-      } catch (error) {
-        throw DecodingError(
-            'Decoding Error, while using `decode` of ${Request<R>}: $error');
+        final result = request.decode(responseBody);
+        if (enableLog) {
+          log(_logString(httpRequest, response, body, responseBody));
+        }
+        return result;
+      } catch (error, stackTrace) {
+        throw DecodingError<R>(
+          request,
+          stackTrace,
+          error,
+        );
       }
     } catch (error) {
       if (enableLog) {
-        log(_logErrorString(httpRequest,
-            error is APIException ? error.statusCode : null, body, error));
+        dynamic responseBody;
+        final responseString = response?.body;
+        if (responseString != null) {
+          try {
+            responseBody = decodeBody(responseString);
+          } catch (e) {
+            responseBody = responseString;
+          }
+        }
+        log(
+          _logErrorString(
+            httpRequest,
+            error is APIException ? error.statusCode : null,
+            body,
+            responseBody,
+            error,
+          ),
+        );
       }
       rethrow;
     } finally {
@@ -286,14 +308,23 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   /// Generates Error log string
   String _logErrorString(http.BaseRequest request, int? statusCode,
-      Map<String, dynamic>? requestBody, Object error) {
+      Map<String, dynamic>? requestBody, dynamic responseBody, Object error) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
     sb.writeln('Method: ${request.method}, url: ${request.url}');
     sb.writeln('Header: ${logFormattedJson(request.headers)}');
     sb.writeln('Body: ${logFormattedJson(requestBody)}');
     sb.writeln('------------ Response ------------');
     sb.writeln('Status Code: $statusCode');
-    sb.writeln('Error: ${logFormattedJson(error)}');
+    if (error is APIException) {
+      sb.writeln('Error: ${logFormattedJson(error.responseBody)}');
+    } else {
+      sb.writeln('Error: $error');
+      if (responseBody != null) {
+        sb.writeln(
+            'Here is the raw response body. Check for key value mismatch');
+        sb.writeln('Body: ${logFormattedJson(responseBody)}');
+      }
+    }
     sb.write('======== Network Call End ========');
     return sb.toString();
   }
