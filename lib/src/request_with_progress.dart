@@ -4,14 +4,18 @@ import 'package:http/http.dart' as http;
 
 import 'model/type_def.dart';
 
-class RequestWithProgress extends http.Request {
+class RequestWithProgress extends http.Request with http.Abortable {
   RequestWithProgress(
     super.method,
-    super.url,
-    this.onProgress,
-  );
+    super.url, {
+    Progress? onProgress,
+    Future<void>? abortTrigger,
+  })  : onProgress = onProgress,
+        abortTrigger = abortTrigger;
 
   final Progress? onProgress;
+  @override
+  final Future<void>? abortTrigger;
 
   int _bytesCount = 0;
   int _totalBytes = 0;

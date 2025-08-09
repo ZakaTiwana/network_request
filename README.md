@@ -20,6 +20,7 @@ A powerful and comprehensive Dart package for simplifying **HTTP requests** and 
 - 🐚 Get `cURL commands` for every network request for easy debugging and reproduction outside your application.
 - 📦 Out-of-the-box support for common HTTP content types like `application/json`, `text/plain`, `x-www-form-urlencoded`, and `multipart/form-data`.
 - 📶 Get download and upload progress in simple callbacks.
+- 🛑 Cancel/abort in-flight requests using `abortTrigger` (requires `http >= 1.5.0`).
 
 ## 📝 Logging Feature
 Best suited for JSON APIs. Get detailed logs for both requests and responses with a `terminal-pastable cURL command` for every request, enabling quick reproduction and testing outside your application. This feature significantly speeds up debugging and facilitates clear communication with your backend team.
@@ -29,14 +30,18 @@ Best suited for JSON APIs. Get detailed logs for both requests and responses wit
 ## 🚀 Getting started
 
 In your Dart/Flutter project add the following line to `pubspec.yaml` file
+
+```yaml
+network_request: 0.2.0
+```
+
+Or get the latest from github
+
 ```yaml
 network_request:
     git: https://github.com/ZakaTiwana/network_request.git
 ```
-Or from pub.dev use
-```yaml
-network_request: 0.1.1
-```
+
 
 ## 💡 Usage
  
@@ -202,6 +207,46 @@ Find more detailed examples in the `example` folder.
 
 **Note:** A mock server API with Dart was also created to test `network_request` functionality. You can find its [source code here](https://github.com/ZakaTiwana/network_request_mock_api)
 
+### ⛔ Aborting requests (http 1.5.0)
+
+The `http` package added native abort support in 1.5.0 via the `Abortable` API. This library exposes it through `Request.abortTrigger` so you can cancel any in-flight request.
+
+- **How it works**:
+  - Pass a `Future<void>` to `abortTrigger` when calling `NetworkRequest.call`.
+  - Complete that future to abort the request.
+  - Supported clients (e.g., `IOClient`, `BrowserClient`, `RetryClient`) observe the trigger and cancel sending/streaming.
+  - The await will throw `http.RequestAbortedException` when abortion occurs.
+
+- **Docs**: See the official `http` docs: [Aborting requests](https://pub.dev/packages/http#aborting-requests).
+
+#### Basic abort example
+
+```dart
+import 'dart:async';
+import 'package:network_request/network_request.dart';
+import 'package:http/http.dart' as http;
+
+Future<void> exampleAbort(NetworkRequest network) async {
+  final abort = Completer<void>();
+
+  // Abort shortly after starting (demo)
+  Future<void>.delayed(const Duration(milliseconds: 100))
+      .then((_) => abort.complete());
+
+  try {
+    await network.call(
+      Request<void>(
+        method: Method.GET,
+        path: '/posts',
+        decode: (_) {},
+        abortTrigger: abort.future,
+      ),
+    );
+  } on http.RequestAbortedException {
+    // Handle cancellation gracefully
+  }
+}
+```
 ## 📚 Additional Information
 
 Feel free to leave any suggestions :) 

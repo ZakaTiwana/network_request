@@ -1,4 +1,5 @@
 import 'dart:convert' as converter;
+import 'dart:async';
 
 import 'request_method.dart';
 import 'type_def.dart';
@@ -18,6 +19,7 @@ class Request<R> {
     this.isRefreshRequest = false,
     this.downloadProgress,
     this.uploadProgress,
+    this.abortTrigger,
   });
   final Method method;
 
@@ -79,10 +81,16 @@ class Request<R> {
   final bool isRefreshRequest;
 
   /// Callback to get the progress of the download
+  ///
   /// [totalBytes] will only be available if response
   /// has `Content-Length` header
   final Progress? downloadProgress;
 
   /// Callback to get the progress of the upload
   final Progress? uploadProgress;
+
+  /// When completed, attempts to abort the in-flight HTTP request (if the
+  /// underlying client supports abortion; e.g. `IOClient`, `BrowserClient`,
+  /// `RetryClient`). See `package:http` aborting docs. https://pub.dev/packages/http#aborting-requests
+  final Future<void>? abortTrigger;
 }
