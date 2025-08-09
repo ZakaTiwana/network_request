@@ -1,5 +1,6 @@
-## 0.1.1
+## 0.2.0
 - Made Decoding Error more explanatory with stack trace
+- Added supported for aborting request. Introduced in http >= 1.5.0
 
 ## 0.1.1
 - Made wasm compatible
