@@ -1,4 +1,7 @@
 ## 0.1.1
+- Made Decoding Error more explanatory with stack trace
+
+## 0.1.1
 - Made wasm compatible
 
 ## 0.1.0
