@@ -1,3 +1,6 @@
+## 0.2.1
+- Correct Error logs
+
 ## 0.2.0
 - Made Decoding Error more explanatory with stack trace
 - Added support for aborting requests. Introduced in http >= 1.5.0
