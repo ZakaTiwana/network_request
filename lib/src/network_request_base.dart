@@ -80,8 +80,15 @@ abstract class NetworkRequest implements NetworkRequestInterface {
 
   @override
 
-  /// Uses [request] to generate a request
-  /// of a network call. If [presistClient] is not provided
+  /// Uses [request] to generate a request of a endpoint.
+  ///
+  /// If [request.abortTrigger] is provided then it will abort the request
+  /// when the abortTrigger future is completed.
+  ///
+  /// (Only supported http client can abort such as `IOClient`, `BrowserClient`, `RetryClient`. Read more about aborting requests https://pub.dev/packages/http#aborting-requests)
+  ///
+  ///
+  /// If [presistClient] is not provided
   /// then genreates a [http.Client] by [initalizeClient]
   /// and when the API call is completed it closes the [http.Client].
   ///
@@ -121,19 +128,27 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         httpRequest = MultipartRequestWithProgress(
           request.method.name,
           url(request),
-          request.uploadProgress!,
+          onProgress: request.uploadProgress!,
+          abortTrigger: request.abortTrigger,
         );
       } else {
-        httpRequest = http.MultipartRequest(
-          request.method.name,
-          url(request),
-        );
+        httpRequest = request.abortTrigger != null
+            ? http.AbortableMultipartRequest(
+                request.method.name,
+                url(request),
+                abortTrigger: request.abortTrigger,
+              )
+            : http.MultipartRequest(
+                request.method.name,
+                url(request),
+              );
       }
     } else {
       httpRequest = RequestWithProgress(
         request.method.name,
         url(request),
-        request.uploadProgress,
+        onProgress: request.uploadProgress,
+        abortTrigger: request.abortTrigger,
       );
     }
 

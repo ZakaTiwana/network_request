@@ -29,13 +29,14 @@ extension ExJpPostNetworkManager on JsonPlaceholderManager {
     );
   }
 
-  Future<List<Post>> getAllPost() {
+  Future<List<Post>> getAllPost({Future<void>? abortTrigger}) {
     return call(
       Request<List<Post>>(
         method: Method.GET,
         path: '/posts',
         decode: (json) =>
             tryToListParseJson(json, (e) => Post.fromJson(e)) ?? [],
+        abortTrigger: abortTrigger,
       ),
     );
   }

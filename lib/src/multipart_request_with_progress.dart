@@ -4,14 +4,18 @@ import 'package:http/http.dart' as http;
 
 import 'model/type_def.dart';
 
-class MultipartRequestWithProgress extends http.MultipartRequest {
+class MultipartRequestWithProgress extends http.MultipartRequest
+    with http.Abortable {
   MultipartRequestWithProgress(
     super.method,
-    super.url,
-    this.onProgress,
-  );
+    super.url, {
+    required this.onProgress,
+    this.abortTrigger,
+  });
 
   final Progress onProgress;
+  @override
+  final Future<void>? abortTrigger;
 
   int _bytesCount = 0;
   int _totalBytes = 0;
