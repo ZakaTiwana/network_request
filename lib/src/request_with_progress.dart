@@ -8,10 +8,9 @@ class RequestWithProgress extends http.Request with http.Abortable {
   RequestWithProgress(
     super.method,
     super.url, {
-    Progress? onProgress,
-    Future<void>? abortTrigger,
-  })  : onProgress = onProgress,
-        abortTrigger = abortTrigger;
+    this.onProgress,
+    this.abortTrigger,
+  });
 
   final Progress? onProgress;
   @override
