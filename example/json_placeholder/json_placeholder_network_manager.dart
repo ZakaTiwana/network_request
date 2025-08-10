@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:network_request/network_request.dart';
 import 'package:network_request/src/model/captured_response.dart';
 
 class JsonPlaceholderManager extends NetworkRequest {
   @override
-  Future<Map<String, String>> get authorizationHeader async => {};
+  Future<Map<String, String>> get authorizationHeader async => {
+        HttpHeaders.authorizationHeader: 'Bearer 1234567890',
+      };
 
   @override
 

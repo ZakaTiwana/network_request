@@ -108,8 +108,10 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         CanonicalizedMap<String, String, String>((key) => key.toLowerCase());
     _headers.clear();
     canonicalizedMap.addAll(await defaultHeader);
-    _addRequestHeader(request, canonicalizedMap);
     canonicalizedMap.addAll(await authorizationHeader);
+
+    _addRequestHeader(request, canonicalizedMap);
+
     _headers.addAll(canonicalizedMap.toMapOfCanonicalKeys());
     canonicalizedMap.clear();
 
@@ -266,7 +268,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         log(
           _logErrorString(
             httpRequest,
-            error is APIException ? error.statusCode : null,
+            error is APIException ? error.statusCode : response?.statusCode,
             body,
             responseBody,
             error,
@@ -335,12 +337,8 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     } else {
       sb.writeln('Error: $error');
       if (responseBody != null) {
-        sb.write('Here is the raw response body. ');
-        if (error is DecodingError) {
-          sb.writeln('Check for key value mismatch');
-        } else {
-          sb.writeln();
-        }
+        sb.writeln(
+            'Here is the raw response body. Check for key value mismatch');
         sb.writeln('Body: ${logFormattedJson(responseBody)}');
       }
     }

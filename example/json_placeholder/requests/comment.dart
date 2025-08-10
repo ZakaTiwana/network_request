@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:network_request/network_request.dart';
 
 import '../json_placeholder_network_manager.dart';
@@ -10,6 +12,9 @@ extension ExJpCommentNetworkManager on JsonPlaceholderManager {
       Request<List<Comment>>(
         method: Method.GET,
         path: '/comments',
+        headers: {
+          HttpHeaders.authorizationHeader: '',
+        },
         query: {
           'post': id.toString(),
         },
