@@ -1,3 +1,8 @@
+
+## 0.2.2
+- Request headers override auth header
+- Status code added in error logs if available
+
 ## 0.2.1
 - Correct Error logs
 
