@@ -229,7 +229,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
         }
         if (unauthorizedStatusCode.contains(response.statusCode)) {
           try {
-            if (await tryToReauthenticate(client: client)) {
+            if (await tryToReauthenticate(client: client, request: request)) {
               return await call(request, presistClient: client);
             }
           } catch (_) {}
@@ -289,10 +289,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   ///
   /// Can override to add custom logic.
   Uri url(Request request) {
-    var path = request.path;
-    if (!path.startsWith('/')) path = '/$path';
-    var version = request.version;
-    if (version != null && version > 0) path = 'v$version$path';
+    final path = request.path;
 
     if (isRequestHttps) {
       return Uri.https(

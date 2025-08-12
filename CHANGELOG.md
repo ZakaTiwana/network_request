@@ -1,4 +1,21 @@
-
+## 0.3.0
+### Breaking Change
+- The Request that triggered the Re-authenticate flow passed in tryToReauthenticate to make better decision
+    - **How to resolve:**  
+        Previously, you may have implemented.  
+         ```dart
+       @override
+        Future<bool> tryToReauthenticate({dynamic client}) async {
+           // ... your logic
+        }
+        ```
+        Now, update your method to:  
+        ```dart
+        @override
+        Future<bool> tryToReauthenticate({required Request request, dynamic client}) async {
+           // ... your logic
+        }
+        ```
 ## 0.2.2
 - Request headers override auth header
 - Status code added in error logs if available

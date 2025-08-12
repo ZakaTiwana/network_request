@@ -25,7 +25,10 @@ class TestNetworkManager extends NetworkRequest {
   }
 
   @override
-  Future<bool> tryToReauthenticate({dynamic client}) async {
+  Future<bool> tryToReauthenticate({
+    required Request request,
+    dynamic client,
+  }) async {
     return false;
   }
 

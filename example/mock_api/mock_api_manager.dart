@@ -35,7 +35,10 @@ class MockAPIManger extends NetworkRequest {
 
   /// This is just an example on how we can use `tryToReauthenticate` logic.
   @override
-  Future<bool> tryToReauthenticate({dynamic client}) async {
+  Future<bool> tryToReauthenticate({
+    required Request request,
+    dynamic client,
+  }) async {
     final presistClient = client as http.Client;
 
     var authService = AuthTokenData.dummy();
