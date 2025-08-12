@@ -4,11 +4,35 @@ import 'dart:async';
 import 'request_method.dart';
 import 'type_def.dart';
 
-// R is result of the Request
+/// Request model to make network calls with [R] as result
 class Request<R> {
+  /// Request model to make network calls with [R] as result
+  ///
+  /// Required Parameters:
+  ///
+  /// * [method] is the HTTP method to use
+  ///
+  /// * [path] is the path to the endpoint without domain
+  ///
+  /// * [decode] is the function to decode the response, VoidCallback for empty response
+  ///
+  /// Optional Parameters:
+  ///
+  /// * [version] is the version of the endpoint
+  ///
+  /// * [query] is the query parameters to the endpoint
+  ///
+  /// * [headers] is the headers to the endpoint this will override the default headers
+  ///
+  /// * [body] is the body to the endpoint
+  ///
+  /// * [files] is the files to the endpoint
+  ///
+  /// * [encoding] is the encoding to the endpoint
+
   const Request({
     required this.method,
-    required this.path,
+    required String path,
     required this.decode,
     this.version,
     this.query,
@@ -20,13 +44,26 @@ class Request<R> {
     this.downloadProgress,
     this.uploadProgress,
     this.abortTrigger,
-  });
+  }) : _path = path;
+
   final Method method;
 
   /// Path to enpoint without domain
   ///
   ///     path: '/path/to/endpoint';
-  final String path;
+  final String _path;
+
+  /// Path to enpoint without domain
+  ///
+  ///     path: '/path/to/endpoint';
+  String get path {
+    var computedPath = _path;
+    if (!computedPath.startsWith('/')) computedPath = '/$computedPath';
+    if (version != null && version! > 0) {
+      computedPath = 'v$version$computedPath';
+    }
+    return computedPath;
+  }
 
   /// If set, it will prefix version to
   /// the enpoint version string e.g `/v1/path/to/endpoint`

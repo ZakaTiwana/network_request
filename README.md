@@ -32,7 +32,7 @@ Best suited for JSON APIs. Get detailed logs for both requests and responses wit
 In your Dart/Flutter project add the following line to `pubspec.yaml` file
 
 ```yaml
-network_request: 0.2.2
+network_request: 0.3.0
 ```
 
 Or get the latest from github
