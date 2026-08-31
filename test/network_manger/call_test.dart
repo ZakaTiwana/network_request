@@ -15,6 +15,7 @@ class _MockNetworkManager extends NetworkRequest {
   }
 
   final http.Client _client;
+  final logs = <String>[];
 
   @override
   http.Client initalizeClient() => _client;
@@ -31,7 +32,9 @@ class _MockNetworkManager extends NetworkRequest {
       };
 
   @override
-  void log(String logString) {}
+  void log(String logString) {
+    logs.add(logString);
+  }
 
   @override
   Future<bool> tryToReauthenticate({
@@ -42,6 +45,15 @@ class _MockNetworkManager extends NetworkRequest {
 
   @override
   Exception? errorDecoder(CapturedResponse response) => null;
+}
+
+class _CustomErrorNetworkManager extends _MockNetworkManager {
+  _CustomErrorNetworkManager(super.client);
+
+  @override
+  Exception? errorDecoder(CapturedResponse response) {
+    return Exception('custom api error');
+  }
 }
 
 void main() {
@@ -114,5 +126,92 @@ void main() {
       ),
       throwsA(isA<APIException>()),
     );
+  });
+
+  test('APIException error log does not mention a decode key mismatch',
+      () async {
+    final client = MockClient((request) async {
+      return http.Response('{"error": "nope"}', 400,
+          headers: {'content-type': 'application/json'});
+    });
+
+    final network = _MockNetworkManager(client)..enableLog = true;
+    await expectLater(
+      network.call(
+        Request<void>(
+          method: Method.GET,
+          path: '/fail',
+          decode: (_) {},
+        ),
+      ),
+      throwsA(isA<APIException>()),
+    );
+
+    expect(network.logs, isNotEmpty);
+    expect(
+      network.logs.join('\n'),
+      isNot(contains('keys/types may not match')),
+    );
+    expect(
+      network.logs.join('\n'),
+      isNot(contains('key value mismatch')),
+    );
+  });
+
+  test('custom errorDecoder log does not mention a decode key mismatch',
+      () async {
+    final client = MockClient((request) async {
+      return http.Response('{"error": "nope"}', 403,
+          headers: {'content-type': 'application/json'});
+    });
+
+    final network = _CustomErrorNetworkManager(client)..enableLog = true;
+    await expectLater(
+      network.call(
+        Request<void>(
+          method: Method.GET,
+          path: '/fail',
+          decode: (_) {},
+        ),
+      ),
+      throwsA(isA<Exception>()),
+    );
+
+    final log = network.logs.join('\n');
+    expect(log, contains('custom api error'));
+    expect(log, isNot(contains('keys/types may not match')));
+    expect(log, isNot(contains('key value mismatch')));
+    expect(log, contains('Body:'));
+  });
+
+  test('DecodingError log explains a model key/type mismatch', () async {
+    final client = MockClient((request) async {
+      return http.Response(
+        jsonEncode({'unexpected': true}),
+        200,
+        headers: {'content-type': 'application/json'},
+      );
+    });
+
+    final network = _MockNetworkManager(client)..enableLog = true;
+    await expectLater(
+      network.call(
+        Request<Todo>(
+          method: Method.GET,
+          path: '/todos/1',
+          decode: (json) => Todo.fromJson(json as Map<String, dynamic>),
+        ),
+      ),
+      throwsA(isA<DecodingError<Todo>>()),
+    );
+
+    final log = network.logs.join('\n');
+    expect(
+      log,
+      contains(
+        'Decode failed. Compare the raw response below with your decode function (keys/types may not match).',
+      ),
+    );
+    expect(log, contains('unexpected'));
   });
 }

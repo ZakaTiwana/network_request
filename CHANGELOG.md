@@ -6,6 +6,7 @@
 - Raised the Dart SDK constraint to `^3.4.0` to match `http` 1.6.0.
 - JSON requests no longer get an implicit `charset=utf-8` on `Content-Type` (`http` 1.6.0 / RFC 8259).
 - Renamed helper test files so `dart test` only loads suites that define `main`.
+- Error logs only mention a key/type mismatch when decoding fails (`DecodingError`). Other errors still include the response body when available.
 
 ## 0.3.0
 ### Breaking Change
