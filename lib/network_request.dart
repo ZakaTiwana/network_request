@@ -1,5 +1,5 @@
 /// Make Network requests with ease
-library network_request;
+library;
 
 export 'src/network_request_base.dart';
 export 'src/model/api_exception.dart';

@@ -1,3 +1,12 @@
+## 0.3.1
+- Updated dependencies to their latest versions:
+  - `http` `^1.5.0` → `^1.6.0`
+  - `lints` `^6.0.0` → `^6.1.0`
+  - `test` `^1.26.2` → `^1.31.2`
+- Raised the Dart SDK constraint to `^3.4.0` to match `http` 1.6.0.
+- JSON requests no longer get an implicit `charset=utf-8` on `Content-Type` (`http` 1.6.0 / RFC 8259).
+- Renamed helper test files so `dart test` only loads suites that define `main`.
+
 ## 0.3.0
 ### Breaking Change
 - The Request that triggered the Re-authenticate flow passed in tryToReauthenticate to make better decision
