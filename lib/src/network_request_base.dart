@@ -272,6 +272,7 @@ abstract class NetworkRequest implements NetworkRequestInterface {
             body,
             responseBody,
             error,
+            isDecodingError: error is DecodingError<R>,
           ),
         );
       }
@@ -321,8 +322,14 @@ abstract class NetworkRequest implements NetworkRequestInterface {
   }
 
   /// Generates Error log string
-  String _logErrorString(http.BaseRequest request, int? statusCode,
-      Map<String, dynamic>? requestBody, dynamic responseBody, Object error) {
+  String _logErrorString(
+    http.BaseRequest request,
+    int? statusCode,
+    Map<String, dynamic>? requestBody,
+    dynamic responseBody,
+    Object error, {
+    required bool isDecodingError,
+  }) {
     StringBuffer sb = StringBuffer('\n======== Network Call Start ========\n');
     sb.writeln('Method: ${request.method}, url: ${request.url}');
     sb.writeln('Header: ${logFormattedJson(request.headers)}');
@@ -334,8 +341,11 @@ abstract class NetworkRequest implements NetworkRequestInterface {
     } else {
       sb.writeln('Error: $error');
       if (responseBody != null) {
-        sb.writeln(
-            'Here is the raw response body. Check for key value mismatch');
+        if (isDecodingError) {
+          sb.writeln(
+            'Decode failed. Compare the raw response below with your decode function (keys/types may not match).',
+          );
+        }
         sb.writeln('Body: ${logFormattedJson(responseBody)}');
       }
     }
