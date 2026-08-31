@@ -1,6 +1,6 @@
 import 'package:test/test.dart' show group;
-import 'http_test.dart';
-import 'version_test.dart';
+import 'https_tests.dart';
+import 'version_tests.dart';
 
 void main() {
   group('[All version tests]', allVersionTests);
